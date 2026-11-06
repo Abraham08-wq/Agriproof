@@ -1,0 +1,86 @@
+# Production setup for a cloud server with a domain name.
+# Caddy obtains and renews HTTPS certificates automatically. Only ports 80 and 443 are open;
+# the database, AI engine and API are reachable only inside this private Docker network.
+#
+# Start:  make prod-up      (requires DOMAIN and a public blockchain in .env; see README "Going online")
+name: agriproof-prod
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: agri
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: agriproof
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agri -d agriproof"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  ai:
+    build: { context: ./ai-service, network: host }
+    restart: always
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: { context: ./backend, network: host }
+    restart: always
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://agri:${POSTGRES_PASSWORD}@postgres:5432/agriproof?sslmode=disable
+      AI_SERVICE_URL: http://ai:8000
+      BRAND_DIR: /brand
+      TRUST_PROXY: "true"
+    volumes:
+      - ./brand:/brand:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    restart: always
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env, e.g. app.yourdomain.com}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
+    depends_on:
+      - api
+
+  monitor:
+    image: python:3.12-alpine
+    restart: always
+    environment:
+      API_URL: http://api:8080
+      API_KEY: ${MONITOR_API_KEY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      MONITOR_SUMMARY_HOUR: ${MONITOR_SUMMARY_HOUR:-8}
+      MONITOR_STATE: /data/monitor-state.json
+    command: ["python", "-u", "/app/monitor.py"]
+    volumes:
+      - ./monitor:/app:ro
+      - monitordata:/data
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  caddydata:
+  caddyconfig:
+  monitordata:

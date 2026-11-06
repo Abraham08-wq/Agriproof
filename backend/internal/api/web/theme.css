@@ -1,0 +1,93 @@
+/* AgriProof theme: the colours of a young maize field in the morning. Shared by every page. */
+:root{
+  --leaf:#4CB944;      /* bright young maize leaf */
+  --stalk:#1F7A2E;     /* deeper green: buttons and readable green text */
+  --stalk-dark:#16602A;
+  --morning:#F7FCF1;   /* page background */
+  --shoot:#E6F5DA;     /* soft green surfaces */
+  --shoot-2:#D4EDC2;
+  --paper:#FFFFFF;
+  --soil:#1E3320;      /* text */
+  --soil-2:#4A6150;    /* secondary text */
+  --soil-3:#7E9283;
+  --line:#CFE3C3;
+  --tassel:#F2B705;    /* maize silk gold: warnings, highlights */
+  --tassel-ink:#7A5800;
+  --tassel-soft:#FFF4CC;
+  --tomato:#D9482B;    /* fakes and danger */
+  --tomato-soft:#FDE6E0;
+  --sky:#2F8FCB;
+  --sky-soft:#E1F1FB;
+  --display:"Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r-s:10px; --r-m:16px; --r-l:26px;
+  --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--morning);color:var(--soil);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--tassel);outline-offset:2px;border-radius:6px}
+.hidden{display:none !important}
+h1,h2,h3{font-family:var(--display);color:var(--soil);margin:0;font-weight:700;letter-spacing:-.015em;line-height:1.1}
+a{color:var(--stalk)}
+.muted{color:var(--soil-2)}
+.small{font-size:14px}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;border-radius:999px;border:2px solid var(--stalk);
+  background:var(--paper);color:var(--stalk);font-weight:700;font-size:17px;cursor:pointer;transition:transform .12s ease, background .15s}
+.btn:active{transform:scale(.97)}
+.btn.go{background:var(--stalk);color:#fff}
+.btn.go:hover{background:var(--stalk-dark)}
+.btn.warn{border-color:var(--tomato);color:var(--tomato)}
+.btn.warn.go{background:var(--tomato);color:#fff}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.small{min-height:38px;padding:0 14px;font-size:15px}
+.btn:disabled{opacity:.5;cursor:default}
+.btn svg{width:22px;height:22px;flex:none}
+.field{display:block;margin:0 0 16px}
+.field>span{display:block;font-weight:700;font-size:15px;margin:0 0 6px}
+.field small{display:block;color:var(--soil-2);font-size:14px;margin-top:5px}
+.input{width:100%;min-height:54px;border:2px solid var(--line);background:var(--paper);border-radius:var(--r-s);padding:12px 14px;font-size:18px;outline:none}
+.input:focus{border-color:var(--leaf);box-shadow:0 0 0 4px rgba(76,185,68,.18)}
+select.input{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--stalk) 50%),linear-gradient(135deg,var(--stalk) 50%,transparent 50%);
+  background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.err{color:var(--tomato);font-weight:700;min-height:22px;margin:4px 0 10px}
+
+/* chips */
+.chip{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:999px;font-size:14px;font-weight:700;background:var(--shoot);color:var(--stalk)}
+.chip.gold{background:var(--tassel-soft);color:var(--tassel-ink)}
+.chip.red{background:var(--tomato-soft);color:#A3301A}
+.chip.sky{background:var(--sky-soft);color:#1D6694}
+.chip.grey{background:#EEF2EC;color:var(--soil-2)}
+
+/* the growing maize plant (signature) */
+.maize{display:block}
+.maize .stalk{fill:none;stroke:var(--stalk);stroke-width:5;stroke-linecap:round;stroke-dasharray:260;stroke-dashoffset:260;animation:grow 1.4s .1s cubic-bezier(.3,.7,.3,1) forwards}
+.maize .lf{fill:var(--leaf);transform-box:fill-box;transform:scale(0);animation:unfurl .7s cubic-bezier(.2,1.4,.4,1) forwards}
+.maize .lf.l1{transform-origin:100% 100%;animation-delay:.55s}
+.maize .lf.r1{transform-origin:0% 100%;animation-delay:.75s}
+.maize .lf.l2{transform-origin:100% 100%;animation-delay:.95s}
+.maize .lf.r2{transform-origin:0% 100%;animation-delay:1.1s}
+.maize .cob{fill:var(--tassel);transform-box:fill-box;transform-origin:0% 100%;transform:scale(0);animation:unfurl .6s 1.3s cubic-bezier(.2,1.4,.4,1) forwards}
+.maize .tas{fill:none;stroke:var(--tassel);stroke-width:3;stroke-linecap:round;stroke-dasharray:30;stroke-dashoffset:30;animation:grow .6s 1.45s ease forwards}
+.maize .sway{transform-box:fill-box;transform-origin:50% 100%;animation:sway 5s 2.2s ease-in-out infinite}
+.maize .ground{fill:none;stroke:#B9D9A8;stroke-width:3;stroke-linecap:round}
+@keyframes grow{to{stroke-dashoffset:0}}
+@keyframes unfurl{to{transform:scale(1)}}
+@keyframes sway{0%,100%{transform:rotate(0)}50%{transform:rotate(2.2deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.spinner{width:26px;height:26px;border-radius:50%;border:3px solid var(--shoot-2);border-top-color:var(--leaf);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* photo credits */
+.credit{font-size:12px;color:var(--soil-3)}
+.credit a{color:inherit}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .maize .stalk,.maize .tas{stroke-dashoffset:0}
+  .maize .lf,.maize .cob{transform:none}
+}

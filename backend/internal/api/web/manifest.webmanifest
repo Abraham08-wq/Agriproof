@@ -1,0 +1,11 @@
+{
+  "name": "AgriProof",
+  "short_name": "AgriProof",
+  "description": "Honest weights, genuine fertilizer, fair pay.",
+  "start_url": "/app/",
+  "scope": "/app/",
+  "display": "standalone",
+  "background_color": "#F7FCF1",
+  "theme_color": "#1F7A2E",
+  "icons": [{ "src": "/app/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1F7A2E">
+<title>AgriProof field office</title>
+<link rel="icon" href="/app/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+<style nonce="{{NONCE}}">
+{{THEME}}
+body{min-height:100vh}
+/* sign in */
+.split{display:grid;grid-template-columns:1.1fr 1fr;min-height:100vh}
+.split .photo{position:relative;background:url("/brand/hero.jpg") center/cover no-repeat,linear-gradient(160deg,#8DDC7F,#2E9A3A 70%);overflow:hidden}
+.split .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(200deg,rgba(255,255,255,0) 40%,rgba(22,96,42,.55))}
+.split .photo .words{position:absolute;left:44px;bottom:44px;right:44px;z-index:1;color:#fff}
+.split .photo h1{color:#fff;font-size:clamp(34px,4vw,54px);font-weight:800;max-width:14ch}
+.split .photo p{color:#EAF9E2;font-size:19px;max-width:40ch;margin:10px 0 0}
+.split .photo .credit{color:#DDF2D3;position:absolute;right:16px;top:12px;z-index:1}
+.split .photo .credit a{color:inherit}
+.split .form{display:flex;flex-direction:column;justify-content:center;padding:48px clamp(24px,6vw,90px);position:relative}
+.split .form .maize{width:74px;height:136px;margin-bottom:8px}
+.split .form h2{font-size:34px}
+.split .form form{max-width:400px;margin-top:22px}
+@media (max-width:860px){.split{grid-template-columns:1fr}.split .photo{min-height:260px}.split .photo .words{left:20px;bottom:20px}}
+
+/* shell */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.rail{background:var(--shoot);border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.rail .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:21px;padding:4px 10px 18px}
+.rail .brand svg{width:30px;height:30px}
+.nav{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;border:0;background:transparent;font-weight:700;cursor:pointer;text-align:left;color:var(--soil-2);position:relative}
+.nav svg{width:22px;height:22px;color:var(--stalk)}
+.nav:hover{background:var(--shoot-2)}
+.nav[aria-current="page"]{background:var(--paper);color:var(--soil);box-shadow:0 6px 16px -12px rgba(31,122,46,.6)}
+.nav .dot{margin-left:auto;min-width:22px;height:22px;border-radius:11px;background:var(--tassel);color:#3B2A00;font-size:12px;display:grid;place-items:center;padding:0 6px}
+.rail .foot{margin-top:auto;padding:10px;font-size:14px;color:var(--soil-2)}
+.rail .foot button{margin-top:8px}
+main{padding:26px clamp(18px,3vw,40px) 60px;min-width:0}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .rail{position:sticky;top:0;z-index:5;height:auto;flex-direction:row;overflow-x:auto;padding:8px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
+  .rail .brand,.rail .foot{display:none}
+  .nav{white-space:nowrap;padding:10px}
+}
+.mode{padding:12px 16px;border-radius:var(--r-s);margin:0 0 18px;background:var(--tassel-soft);color:var(--tassel-ink)}
+.mode.live{background:var(--shoot);color:var(--stalk-dark)}
+.head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin:0 0 18px}
+.head h1{font-size:32px;font-weight:800}
+.head p{margin:4px 0 0;color:var(--soil-2)}
+.head .grow{flex:1;min-width:240px}
+
+/* overview banner */
+.banner{position:relative;border-radius:var(--r-l);overflow:hidden;min-height:210px;color:#fff;margin-bottom:20px;
+  background:url("/brand/field.jpg") center 55%/cover no-repeat,linear-gradient(140deg,#7AD36C,#2E9A3A 65%)}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(22,96,42,.78),rgba(22,96,42,.15) 70%)}
+.banner .in{position:relative;z-index:1;padding:30px;max-width:560px}
+.banner h1{color:#fff;font-size:36px;font-weight:800}
+.banner p{color:#EAF9E2;margin:8px 0 0;font-size:18px}
+.banner .maize{position:absolute;z-index:1;right:28px;bottom:6px;width:86px;height:158px}
+.banner .maize .stalk{stroke:#fff}
+.banner .maize .ground{stroke:rgba(255,255,255,.6)}
+.banner .credit{position:absolute;z-index:1;right:12px;top:8px;color:#E2F5D9}
+.banner .credit a{color:inherit}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:18px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-m);padding:16px 18px;display:flex;gap:14px;align-items:center}
+.stat .si{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--shoot);color:var(--stalk);flex:none}
+.stat .si svg{width:26px;height:26px}
+.stat.gold .si{background:var(--tassel-soft);color:var(--tassel-ink)}
+.stat.red .si{background:var(--tomato-soft);color:#A3301A}
+.stat b{display:block;font-family:var(--display);font-size:25px;white-space:nowrap;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.stat span{color:var(--soil-2);font-size:14px}
+.health{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.hp{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r-s);background:var(--paper);border:1px solid var(--line)}
+.hp i{width:12px;height:12px;border-radius:50%;background:var(--leaf);margin-top:6px;flex:none;box-shadow:0 0 0 4px var(--shoot)}
+.hp.bad i{background:var(--tomato);box-shadow:0 0 0 4px var(--tomato-soft)}
+.hp small{display:block;color:var(--soil-2)}
+
+/* panels, tables */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-m);padding:20px;margin-bottom:18px;min-width:0}
+.panel h2{font-size:22px;display:flex;align-items:center;gap:10px}
+.panel h2 svg{width:24px;height:24px;color:var(--leaf)}
+.panel .sub{color:var(--soil-2);margin:4px 0 14px}
+.side{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:18px;align-items:start}
+@media (max-width:1100px){.side{grid-template-columns:1fr}}
+.chip{white-space:nowrap}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;align-items:start}
+.tw{overflow-x:auto;margin:0 -4px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font-size:13px;color:var(--soil-2);font-weight:700;padding:8px 8px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.pick{cursor:pointer}
+tr.pick:hover td{background:var(--morning)}
+td .acts{display:flex;gap:6px;flex-wrap:wrap}
+.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono);font-size:13px;word-break:break-all}
+.reasons{margin:4px 0 0;padding-left:18px;color:var(--soil-2);font-size:14px}
+.empty{padding:26px;text-align:center;color:var(--soil-2);border:1px dashed var(--line);border-radius:var(--r-s);background:var(--morning)}
+.forms{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0 12px}
+.forms .wide{grid-column:1 / -1}
+.inline{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:8px;padding:12px;border-radius:var(--r-s);background:var(--morning)}
+.inline .field{margin:0;flex:1;min-width:150px}
+.input{min-height:46px;font-size:16px}
+.btn{min-height:46px;font-size:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 16px}
+.tabs button{border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer;color:var(--soil-2)}
+.tabs button[aria-pressed="true"]{border-color:var(--stalk);background:var(--shoot);color:var(--stalk-dark)}
+.back{border:0;background:none;color:var(--stalk);font-weight:700;cursor:pointer;padding:0;margin-bottom:8px;display:inline-flex;align-items:center;gap:6px}
+.back svg{width:18px;height:18px}
+.toast{position:fixed;right:20px;bottom:20px;max-width:420px;padding:14px 18px;border-radius:var(--r-m);background:var(--soil);color:#fff;font-weight:700;z-index:30;transition:opacity .25s,transform .25s}
+.toast.off{opacity:0;transform:translateY(12px);pointer-events:none}
+.toast.bad{background:#A3301A}
+.verdict{padding:14px 16px;border-radius:var(--r-s);background:var(--shoot);margin-top:10px}
+.verdict.medium{background:var(--tassel-soft)} .verdict.high{background:var(--tomato-soft)}
+.full{width:100%}
+.center{display:grid;place-items:center;min-height:50vh}
+.center .maize{width:80px;height:146px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="toast off" id="toast" role="status" aria-live="polite"></div>
+<script nonce="{{NONCE}}">
+"use strict";
+(() => {
+const NS = "http://www.w3.org/2000/svg";
+const root = document.getElementById("root");
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat(3)) if (k != null && k !== false) n.append(k instanceof Node ? k : document.createTextNode(String(k)));
+  return n;
+}
+const ICON = {
+  home: "M3 11l9-7 9 7|M5 10v10h14V10|M10 20v-6h4v6",
+  coop: "M3 21h18|M5 21V10l7-5 7 5v11|M9 21v-5h6v5|M12 5V2",
+  flag: "M5 21V4|M5 4h11l-2 4 2 4H5",
+  bag: "M7 8h10l2 12H5L7 8z|M9 8V6a3 3 0 016 0v2|M10 13h4|M12 13v4",
+  coins: "M8 7a5 2.5 0 1010 0A5 2.5 0 008 7z|M8 7v5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V7|M6 12.5c-1.8.4-3 1.2-3 2v4c0 1.4 2.2 2.5 5 2.5 2.2 0 4-.7 4.7-1.6",
+  book: "M4 4h11a3 3 0 013 3v13H7a3 3 0 01-3-3V4z|M4 17a3 3 0 013-3h11",
+  farmer: "M12 12a4 4 0 100-8 4 4 0 000 8z|M4 21c0-4 3.6-7 8-7s8 3 8 7",
+  scale: "M12 3v3|M5 7h14|M5 7l-3 7a3 3 0 006 0L5 7|M19 7l-3 7a3 3 0 006 0l-3-7|M12 6v14|M8 21h8",
+  shield: "M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z|M8.5 12.5l2.5 2.5 4.5-5",
+  warn: "M12 4l9 16H3L12 4z|M12 10v4|M12 17.5v.01",
+  sprout: "M12 21v-9|M12 12C12 7 8 4 3 4c0 5 4 8 9 8z|M12 14c0-4 3-7 9-7 0 4-3 7-9 7z",
+  link: "M10 14a4 4 0 006 0l3-3a4 4 0 00-6-6l-1 1|M14 10a4 4 0 00-6 0l-3 3a4 4 0 006 6l1-1",
+  back: "M15 18l-6-6 6-6",
+  x: "M6 6l12 12|M18 6L6 18",
+  lab: "M9 3h6|M10 3v6L4 19a1.5 1.5 0 001.3 2h13.4A1.5 1.5 0 0020 19l-6-10V3|M7 15h10",
+};
+function icon(name) {
+  const s = document.createElementNS(NS, "svg");
+  for (const [k, v] of Object.entries({ viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" })) s.setAttribute(k, v);
+  for (const d of (ICON[name] || ICON.sprout).split("|")) { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); s.append(p); }
+  return s;
+}
+function maize() {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 120 220"); s.setAttribute("class", "maize"); s.setAttribute("aria-hidden", "true");
+  const add = (p, a) => { const e = document.createElementNS(NS, "path"); for (const [k, v] of Object.entries(a)) e.setAttribute(k, v); p.append(e); };
+  add(s, { class: "ground", d: "M14 212 Q60 204 106 212" });
+  const g = document.createElementNS(NS, "g"); g.setAttribute("class", "sway"); s.append(g);
+  add(g, { class: "stalk", d: "M60 210 C58 160 62 110 60 40" });
+  add(g, { class: "lf l1", d: "M60 152 C40 140 20 150 6 174 C28 162 44 160 60 160 Z" });
+  add(g, { class: "lf r1", d: "M60 126 C82 112 102 118 116 140 C96 131 78 131 60 134 Z" });
+  add(g, { class: "cob", d: "M62 118 C68 102 74 96 78 84 C84 98 78 112 65 121 Z" });
+  add(g, { class: "lf l2", d: "M60 96 C42 80 22 82 10 99 C28 92 44 95 60 103 Z" });
+  add(g, { class: "lf r2", d: "M60 70 C76 55 94 55 106 68 C92 66 76 69 60 77 Z" });
+  add(g, { class: "tas", d: "M60 42 L50 20 M60 42 L60 12 M60 42 L70 20" });
+  return s;
+}
+const brandMark = () => { const d = document.createElement("span"); d.innerHTML = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V12" stroke="#1F7A2E" stroke-width="3" stroke-linecap="round"/><path d="M16 18C10 18 5 14 4 7c7 0 12 4 12 11z" fill="#4CB944"/><path d="M16 14c0-6 4-10 11-10-1 7-5 11-11 10z" fill="#1F7A2E"/></svg>'; return d.firstChild; };
+
+const nf = new Intl.NumberFormat("en-KE");
+const kes = n => "KES " + nf.format(Math.round(n || 0));
+const kg = n => nf.format(Math.round((n || 0) * 10) / 10) + " kg";
+const when = t => t ? new Date(t).toLocaleString("en-KE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "";
+const day = t => t ? new Date(t).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" }) : "";
+const cap = s => s ? String(s).charAt(0).toUpperCase() + String(s).slice(1) : "";
+const mask = p => p && p.length > 6 ? p.slice(0, 6) + "•••" + p.slice(-3) : p;
+const reasons = r => Array.isArray(r) && r.length ? el("ul", { class: "reasons" }, r.map(x => el("li", {}, cap(x)))) : null;
+let toastT;
+function toast(m, bad) { const t = document.getElementById("toast"); t.textContent = m; t.className = "toast" + (bad ? " bad" : ""); clearTimeout(toastT); toastT = setTimeout(() => t.classList.add("off"), 4500); }
+
+class AuthError extends Error {}
+async function req(path, body, raw) {
+  let res;
+  try {
+    res = await fetch(path, { method: body !== undefined ? "POST" : "GET", credentials: "same-origin",
+      headers: Object.assign({ "X-Requested-With": "agriproof" }, body !== undefined ? { "Content-Type": "application/json" } : {}),
+      body: body !== undefined ? JSON.stringify(body) : undefined });
+  } catch { throw new Error("Cannot reach AgriProof. Is it running?"); }
+  if (raw && res.ok) return res;
+  let data = null; try { data = await res.json(); } catch {}
+  if (res.status === 401 && path !== "/admin/login") throw new AuthError("Signed out");
+  if (!res.ok) throw new Error(cap(String((data && data.error) || `Error ${res.status}`).replace(/^(validation failed|conflict|forbidden|not found|unavailable): ?/i, "")));
+  return data;
+}
+// Runs an action, shows the result, refreshes the current section.
+async function act(fn, ok) { try { const r = await fn(); if (ok) toast(typeof ok === "function" ? ok(r) : ok); render(); return r; } catch (e) { if (e instanceof AuthError) return signIn(); toast(e.message, true); } }
+
+function table(cols, rows, onPick) {
+  if (!rows.length) return el("div", { class: "empty" }, "Nothing here yet.");
+  return el("div", { class: "tw" }, el("table", {},
+    el("thead", {}, el("tr", {}, cols.map(c => el("th", { class: c.num ? "num" : null }, c.h)))),
+    el("tbody", {}, rows.map(r => el("tr", { class: onPick ? "pick" : null, onclick: onPick ? () => onPick(r) : null }, cols.map(c => el("td", { class: c.num ? "num" : null }, c.v(r))))))));
+}
+function field(label, input, hint, wide) { return el("label", { class: "field" + (wide ? " wide" : "") }, el("span", {}, label), input, hint ? el("small", {}, hint) : null); }
+const inp = (name, attrs) => el("input", Object.assign({ class: "input", name, autocomplete: "off" }, attrs || {}));
+const sel = (name, opts) => el("select", { class: "input", name }, opts.map(([v, l]) => el("option", { value: v }, l)));
+function formBox(fields, label, submit) {
+  const err = el("div", { class: "err", role: "alert" });
+  const btn = el("button", { class: "btn go", type: "submit" }, label);
+  const f = el("form", { onsubmit: async e => {
+    e.preventDefault(); err.textContent = ""; btn.disabled = true;
+    const v = Object.fromEntries(new FormData(f).entries());
+    try { await submit(v, f); } catch (ex) { if (ex instanceof AuthError) return signIn(); err.textContent = ex.message; } finally { btn.disabled = false; }
+  } }, el("div", { class: "forms" }, fields), err, btn);
+  return f;
+}
+function inline(fields, label, submit, cls) {
+  const btn = el("button", { class: "btn small " + (cls || "go"), type: "submit" }, label);
+  const f = el("form", { class: "inline", onsubmit: async e => { e.preventDefault(); btn.disabled = true; const v = Object.fromEntries(new FormData(f).entries()); try { await submit(v); } finally { btn.disabled = false; } } }, fields, btn);
+  return f;
+}
+const chip = (text, cls) => el("span", { class: "chip " + (cls || "") }, text);
+const smallBtn = (label, cls, fn) => el("button", { class: "btn small " + (cls || ""), type: "button", onclick: e => { e.stopPropagation(); fn(); } }, label);
+function panel(ic, title, sub, ...body) { return el("section", { class: "panel" }, el("h2", {}, icon(ic), title), sub ? el("p", { class: "sub" }, sub) : null, body); }
+function head(title, sub, ...right) { return el("div", { class: "head" }, el("div", { class: "grow" }, el("h1", {}, title), sub ? el("p", {}, sub) : null), right); }
+
+/* ---------------- sign in ---------------- */
+async function signIn() {
+  let exists = true;
+  try { exists = (await req("/admin/status")).admin_exists; } catch {}
+  const form = exists ? formBox([
+    field("Username", inp("username", { autocomplete: "username" }), null, true),
+    field("Password", inp("password", { type: "password", autocomplete: "current-password" }), null, true),
+    field("6-digit code from your authenticator app", inp("code", { inputmode: "numeric", autocomplete: "one-time-code", maxlength: "6" }), null, true),
+  ], "Sign in", async v => { await req("/admin/login", v); start(); }) :
+    el("div", { class: "empty" }, "No operator account yet. On the AgriProof computer, run: ", el("b", { class: "mono" }, "make admin"), ", then reload this page.");
+  root.replaceChildren(el("div", { class: "split" },
+    el("div", { class: "photo", role: "img", "aria-label": "Maize growing against a blue sky" },
+      el("span", { class: "credit" }, "Photo: Eliézer Fernandes on ", el("a", { href: "https://unsplash.com", rel: "noopener" }, "Unsplash")),
+      el("div", { class: "words" }, el("h1", {}, "Honest weights, genuine inputs, fair pay."),
+        el("p", {}, "The field office for cooperatives, fertilizer checks and farmer payments."))),
+    el("div", { class: "form" }, maize(), el("h2", {}, "Field office sign in"),
+      el("p", { class: "muted" }, "For AgriProof operators. Farmers and cooperative staff use the ", el("a", { href: "/app/" }, "field app"), "."), form)));
+  const u = root.querySelector("input[name=username]"); if (u) u.focus();
+}
+
+/* ---------------- shell ---------------- */
+const SECTIONS = [
+  ["overview", "home", "Overview"], ["coops", "coop", "Cooperatives"], ["flags", "flag", "AI flags"],
+  ["inputs", "bag", "Fertilizer & seed"], ["money", "coins", "Money"], ["audit", "book", "Activity log"],
+];
+const st = { me: null, sys: null, sec: "overview", sub: null, tab: null };
+let mainEl, railEl;
+
+async function start() {
+  try { st.me = await req("/admin/me"); } catch (e) { return signIn(); }
+  railEl = el("nav", { class: "rail", "aria-label": "Sections" });
+  mainEl = el("main", {});
+  root.replaceChildren(el("div", { class: "app" }, railEl, mainEl));
+  const h = location.hash.slice(1).split("/");
+  if (SECTIONS.some(s => s[0] === h[0])) { st.sec = h[0]; st.sub = h[1] || null; }
+  render();
+}
+addEventListener("hashchange", () => { const h = location.hash.slice(1).split("/"); if (SECTIONS.some(s => s[0] === h[0])) { st.sec = h[0]; st.sub = h[1] || null; st.tab = null; render(); } });
+function go(sec, sub) { location.hash = sub ? `${sec}/${sub}` : sec; }
+
+async function drawRail() {
+  let flags = 0;
+  try { const s = await req("/stats"); flags = s.flagged_deliveries + s.held_farmers; } catch {}
+  railEl.replaceChildren(el("div", { class: "brand" }, brandMark(), "AgriProof"),
+    ...SECTIONS.map(([k, ic, label]) => el("button", { class: "nav", type: "button", "aria-current": st.sec === k ? "page" : null, onclick: () => go(k) }, icon(ic), label,
+      k === "flags" && flags ? el("span", { class: "dot" }, flags) : null)),
+    el("div", { class: "foot" }, "Signed in as ", el("b", {}, st.me.name || st.me.username || "operator"),
+      el("div", {}, el("button", { class: "btn small ghost", type: "button", onclick: async () => { try { await req("/admin/logout", {}); } catch {} signIn(); } }, "Sign out"))));
+}
+
+async function render() {
+  drawRail();
+  const loader = el("div", { class: "center" }, el("div", { class: "spinner" }));
+  if (!mainEl.childElementCount) mainEl.replaceChildren(loader);
+  try {
+    if (!st.sys) st.sys = await req("/system");
+    const view = await ({ overview, coops, flags, inputs, money, audit })[st.sec]();
+    const m = st.sys.payments_mode;
+    mainEl.replaceChildren(...[m === "live" ? null : el("div", { class: "mode" }, el("b", {}, m === "sandbox" ? "Sandbox payments. " : "Test mode. "),
+      m === "sandbox" ? "Money moves through the payment company's test system." : "No real money moves. Fundings are confirmed by hand here; add payment keys in .env to go live."), view].filter(Boolean));
+  } catch (e) {
+    if (e instanceof AuthError) return signIn();
+    mainEl.replaceChildren(el("div", { class: "empty" }, e.message, " ", el("button", { class: "btn small", type: "button", onclick: render }, "Try again")));
+  }
+}
+
+/* ---------------- overview ---------------- */
+async function overview() {
+  const [s, sys] = await Promise.all([req("/stats"), req("/system")]);
+  st.sys = sys;
+  const stat = (ic, val, label, cls) => el("div", { class: "stat " + (cls || "") }, el("div", { class: "si" }, icon(ic)), el("div", {}, el("b", {}, val), el("span", {}, label)));
+  const comp = (name, c) => el("div", { class: "hp" + (c.ok ? "" : " bad") }, el("i"), el("div", {}, el("b", {}, name), el("small", {}, c.detail || (c.ok ? "Working" : "Not reachable"))));
+  return el("div", {},
+    el("section", { class: "banner" }, el("span", { class: "credit" }, "Photo: Roger Starnes Sr on ", el("a", { href: "https://unsplash.com", rel: "noopener" }, "Unsplash")),
+      el("div", { class: "in" }, el("h1", {}, `This season: ${kg(s.kg_season)}`), el("p", {}, `Delivered by ${nf.format(s.farmers)} farmers in ${nf.format(s.cooperatives)} cooperative${s.cooperatives === 1 ? "" : "s"}, each weight sealed the moment it was recorded.`)),
+      maize()),
+    el("div", { class: "stats" },
+      stat("coins", kes(s.paid_to_farmers), "paid to farmers"),
+      stat("scale", kes(s.owed_to_farmers), "owed to farmers"),
+      stat("flag", nf.format(s.flagged_deliveries + s.held_farmers), "AI flags waiting", s.flagged_deliveries + s.held_farmers ? "gold" : ""),
+      stat("shield", nf.format(s.codes_checked), "bag codes checked"),
+      stat("warn", nf.format(s.fakes_caught), "fake or copied codes caught", s.fakes_caught ? "red" : ""),
+      stat("lab", nf.format(s.batches_recalled), "batches recalled", s.batches_recalled ? "red" : ""),
+      stat("link", nf.format(s.anchors), "blockchain seals")),
+    panel("sprout", "System health", `Checked ${when(sys.checked_at)}.`,
+      el("div", { class: "health" }, comp("Database", sys.database), comp("Blockchain seal", sys.blockchain), comp("AI checks", sys.ai), comp("Payments", sys.payments), comp("SMS", sys.sms))));
+}
+
+/* ---------------- cooperatives ---------------- */
+async function coops() {
+  if (st.sub) return coopDetail(st.sub);
+  const list = await req("/coops");
+  return el("div", {}, head("Cooperatives", "Each cooperative has its own sealed record book, staff and money."),
+    el("div", { class: "side" },
+      panel("coop", "All cooperatives", null, table([
+        { h: "Name", v: c => el("b", {}, c.name) }, { h: "County", v: c => c.county },
+        { h: "Farmers", num: 1, v: c => nf.format(c.farmers) }, { h: "This season", num: 1, v: c => kg(c.kg_season) },
+        { h: "Owed", num: 1, v: c => kes(c.owed) }, { h: "", v: c => c.flagged ? chip(`${c.flagged} flagged`, "gold") : null },
+      ], list, c => go("coops", c.id))),
+      panel("sprout", "Add a cooperative", "Then add its collection centres, a manager and prices.",
+        formBox([field("Name", inp("name"), null, true), field("County", inp("county"), null, true)], "Add cooperative",
+          async v => { const c = await req("/coops", v); toast(`${c.name} added`); go("coops", c.id); }))));
+}
+
+async function coopDetail(id) {
+  const tab = st.tab || "setup";
+  const d = await req(`/coops/${id}`);
+  const c = d.coop;
+  const tabs = el("div", { class: "tabs" }, [["setup", "Centres, staff, prices"], ["farmers", "Farmers"], ["deliveries", "Deliveries"], ["inputs", "Fertilizer given"], ["records", "Sealed records"], ["lots", "Lots"]]
+    .map(([k, l]) => el("button", { type: "button", "aria-pressed": tab === k ? "true" : "false", onclick: () => { st.tab = k; render(); } }, l)));
+  let body;
+  if (tab === "setup") {
+    const crops = await req("/crops");
+    body = el("div", { class: "grid2" },
+      panel("coop", "Collection centres", null,
+        table([{ h: "Centre", v: x => el("b", {}, x.name) }, { h: "Location", v: x => x.location }], d.centres),
+        inline([field("New centre", inp("name", { placeholder: "e.g. Kapsoya centre" })), field("Location", inp("location"))], "Add centre",
+          v => act(() => req(`/coops/${id}/centres`, v), "Centre added"))),
+      panel("farmer", "Staff", "Managers approve flags and pay runs. Clerks weigh and register.",
+        table([{ h: "Name", v: x => el("b", {}, x.name) }, { h: "Phone", v: x => x.phone }, { h: "Role", v: x => cap(x.role) }, { h: "Centre", v: x => x.centre_name },
+          { h: "", v: x => x.active ? smallBtn("Remove", "warn", () => act(() => req(`/staff/${x.id}/deactivate`, {}), `${x.name} removed`)) : chip("Removed", "grey") }], d.staff),
+        inline([field("Name", inp("name")), field("Phone", inp("phone", { type: "tel" })),
+          field("Role", sel("role", [["clerk", "Clerk"], ["manager", "Manager"]])),
+          field("Centre", sel("centre_id", [["", "No centre"], ...d.centres.map(x => [x.id, x.name])]))], "Add staff",
+          v => act(() => req(`/coops/${id}/staff`, v), "Staff added. They sign in to the field app with their phone."))),
+      panel("scale", "Prices per kg", "A new price applies to deliveries weighed after it is set.",
+        table([{ h: "Crop", v: x => cap(x.crop) }, { h: "Grade", v: x => x.grade }, { h: "Price", num: 1, v: x => kes(x.price_per_kg) }, { h: "Set", v: x => `${day(x.effective_from)} by ${x.set_by}` }], d.prices),
+        inline([field("Crop", sel("crop", crops.map(x => [x.code, x.name]))), field("Grade", sel("grade", [["1", "Grade 1"], ["2", "Grade 2"]])), field("KES per kg", inp("price", { inputmode: "decimal" }))], "Set price",
+          v => act(() => req(`/coops/${id}/prices`, { crop: v.crop, grade: v.grade, price_per_kg: parseFloat(v.price) || 0 }), "Price saved"))),
+      panel("coins", "Cooperative money", `Available to pay farmers: ${kes(d.funds)}.`,
+        inline([field("Manager's M-Pesa phone", inp("phone", { type: "tel" })), field("Amount (KES)", inp("amount", { inputmode: "numeric" }))], "Request funds",
+          v => act(() => req(`/coops/${id}/fund`, { phone: v.phone, amount: parseInt(v.amount, 10) || 0 }), st.sys.payments_mode === "test" ? "Funding recorded. Confirm it under Money once the money is really in." : "M-Pesa prompt sent to that phone."))));
+  } else if (tab === "farmers") {
+    const list = await req(`/coops/${id}/farmers?limit=200`);
+    body = panel("farmer", `Farmers (${list.length})`, null, table([
+      { h: "No.", v: f => f.member_no }, { h: "Name", v: f => el("b", {}, f.name) }, { h: "Phone", v: f => f.phone }, { h: "Village", v: f => f.village },
+      { h: "Acres", num: 1, v: f => f.acres }, { h: "Season", num: 1, v: f => kg(f.season_kg) }, { h: "Owed", num: 1, v: f => kes(f.owed) },
+      { h: "Status", v: f => chip(f.status === "active" ? "Active" : f.status === "held" ? "Held by AI" : cap(f.status), f.status === "active" ? "" : f.status === "held" ? "gold" : "grey") }], list));
+  } else if (tab === "deliveries") {
+    const list = await req(`/coops/${id}/deliveries?limit=200`);
+    body = panel("scale", "Deliveries", null, deliveryTable(list));
+  } else if (tab === "inputs") {
+    const list = await req(`/coops/${id}/inputs`);
+    body = panel("bag", "Fertilizer and seed given to farmers", null, table([
+      { h: "When", v: x => when(x.created_at) }, { h: "Farmer", v: x => x.farmer_name }, { h: "Product", v: x => x.product }, { h: "Batch", v: x => x.batch_no },
+      { h: "Bags", num: 1, v: x => x.bags }, { h: "Given by", v: x => x.issued_by }, { h: "", v: x => x.batch_status === "recalled" ? chip("Recalled", "red") : null }], list));
+  } else if (tab === "records") {
+    const [v, ledger] = await Promise.all([req(`/coops/${id}/verify`), req(`/coops/${id}/ledger?limit=60`)]);
+    body = el("div", {},
+      el("div", { class: "verdict " + (v.valid ? "" : "high") }, el("b", {}, v.valid ? `All ${nf.format(v.entries || ledger.length)} records intact.` : "A record was changed after it was sealed."),
+        " ", v.anchored_entries ? `${nf.format(v.anchored_entries)} sealed on the blockchain${v.anchor_matches === false ? ", but the seal does not match" : ""}.` : "Not yet sealed on the blockchain.",
+        v.warning ? el("div", {}, v.warning) : null, v.anchor_tx ? el("div", { class: "mono" }, "Last seal: " + v.anchor_tx) : null),
+      panel("book", "Latest records", "Every weight, payment and correction, chained by fingerprint. Nothing can be edited or deleted.", table([
+        { h: "#", v: e => e.seq }, { h: "Type", v: e => cap(e.type) }, { h: "Amount", num: 1, v: e => kes(e.amount) }, { h: "Reference", v: e => el("span", { class: "mono" }, e.reference) },
+        { h: "Fingerprint", v: e => el("span", { class: "mono" }, e.hash.slice(0, 16) + "…") }, { h: "When", v: e => when(e.created_at) }], ledger)));
+  } else {
+    const list = await req(`/coops/${id}/lots`);
+    body = panel("link", "Lots for buyers", "Managers create lots in the field app. Each one has a public proof page.", table([
+      { h: "Lot", v: l => el("a", { href: "/p/" + l.code, target: "_blank", rel: "noopener" }, l.code) }, { h: "Crop", v: l => cap(l.crop) }, { h: "Buyer", v: l => l.buyer },
+      { h: "Weight", num: 1, v: l => kg(l.kg) }, { h: "Deliveries", num: 1, v: l => l.deliveries }, { h: "Status", v: l => chip(cap(l.status), l.status === "open" ? "gold" : "") }], list));
+  }
+  return el("div", {}, el("button", { class: "back", type: "button", onclick: () => go("coops") }, icon("back"), "All cooperatives"),
+    head(c.name, `${c.county ? c.county + ". " : ""}${nf.format(c.farmers)} farmers, ${kg(c.kg_season)} this season, ${kes(c.owed)} owed.`), tabs, body);
+}
+
+function deliveryTable(list, actions) {
+  return table([
+    { h: "Receipt", v: x => el("span", { class: "mono" }, x.ref) }, { h: "When", v: x => when(x.created_at) },
+    { h: "Farmer", v: x => [el("b", {}, x.farmer_name), el("div", { class: "small muted" }, `No. ${x.member_no}`)] },
+    { h: "Crop", v: x => `${cap(x.crop)}, grade ${x.grade}` }, { h: "Weight", num: 1, v: x => kg(x.weight_kg) }, { h: "Value", num: 1, v: x => kes(x.amount) },
+    { h: "Clerk", v: x => x.clerk_name },
+    { h: "Status", v: x => [x.status === "held" ? chip("Held by AI", "gold") : x.status === "voided" ? chip("Cancelled", "grey") : x.paid ? chip("Paid") : x.in_payrun ? chip("In pay run", "sky") : chip("Recorded"), reasons(x.status === "held" ? x.ai_reasons : null)] },
+    actions ? { h: "", v: actions } : null].filter(Boolean), list);
+}
+
+/* ---------------- AI flags ---------------- */
+async function flags() {
+  const [fs, ds] = await Promise.all([req("/farmers/held"), req("/deliveries/held")]);
+  return el("div", {}, head("AI flags", "The AI holds anything that looks unusual. A person always decides. Managers can also decide these in the field app."),
+    panel("farmer", "New farmers held", "Possible ghost farmers: shared phones, near-identical names, many sign-ups at once, or unusual farm sizes.", table([
+      { h: "Name", v: f => [el("b", {}, f.name), el("div", { class: "small muted" }, f.coop_name)] }, { h: "Phone", v: f => f.phone },
+      { h: "Acres", num: 1, v: f => f.acres }, { h: "Why", v: f => reasons(f.ai_reasons) },
+      { h: "", v: f => el("div", { class: "acts" }, smallBtn("Confirm", "go", () => act(() => req(`/farmers/${f.id}/approve`, {}), `${f.name} confirmed`)), smallBtn("Reject", "warn", () => act(() => req(`/farmers/${f.id}/reject`, {}), "Rejected"))) }], fs)),
+    panel("scale", "Deliveries held", "Produce above what the farm can grow, repeated weights, or a clerk's figures that stand out.",
+      deliveryTable(ds, x => el("div", { class: "acts" }, smallBtn("Clear for payment", "go", () => act(() => req(`/deliveries/${x.id}/clear`, {}), "Cleared")), smallBtn("Cancel", "warn", () => act(() => req(`/deliveries/${x.id}/reject`, {}), "Delivery cancelled"))))));
+}
+
+/* ---------------- fertilizer & seed ---------------- */
+async function inputs() {
+  const tab = st.tab || "batches";
+  const tabs = el("div", { class: "tabs" }, [["batches", "Batches"], ["suppliers", "Suppliers"], ["checks", "Suspicious checks"], ["complaints", "Farmer reports"]]
+    .map(([k, l]) => el("button", { type: "button", "aria-pressed": tab === k ? "true" : "false", onclick: () => { st.tab = k; st.open = null; render(); } }, l)));
+  const top = head("Fertilizer & seed", "Only verified suppliers' batches get bag codes. Farmers check a code by SMS or at the check page before they buy.",
+    el("a", { class: "btn", href: "/check", target: "_blank", rel: "noopener" }, icon("shield"), "Open the check page"));
+  let body;
+  if (tab === "suppliers") {
+    const list = await req("/suppliers");
+    body = el("div", { class: "grid2" },
+      panel("coop", "Suppliers", "Verify a supplier only after checking its registration and KEBS permit yourself.", table([
+        { h: "Name", v: x => [el("b", {}, x.name), el("div", { class: "small muted" }, cap(x.kind))] }, { h: "Registration", v: x => [x.reg_no, el("div", { class: "small muted" }, x.kebs_permit ? "KEBS " + x.kebs_permit : "No KEBS permit")] },
+        { h: "Batches", num: 1, v: x => x.batches + (x.recalled ? ` (${x.recalled} recalled)` : "") },
+        { h: "Status", v: x => chip(cap(x.status), x.status === "verified" ? "" : x.status === "suspended" ? "red" : "gold") },
+        { h: "", v: x => el("div", { class: "acts" }, x.status !== "verified" ? smallBtn("Verify", "go", () => act(() => req(`/suppliers/${x.id}/verify`, {}), "Supplier verified")) : null,
+          x.status !== "suspended" ? smallBtn("Suspend", "warn", () => act(() => req(`/suppliers/${x.id}/suspend`, {}), "Supplier suspended")) : null) }], list)),
+      panel("sprout", "Add a supplier", null, formBox([
+        field("Name", inp("name"), null, true), field("Type", sel("kind", [["manufacturer", "Manufacturer"], ["importer", "Importer"], ["distributor", "Distributor"]])),
+        field("Phone", inp("phone", { type: "tel" })), field("Company registration no.", inp("reg_no")), field("KEBS permit no.", inp("kebs_permit")),
+        field("County", inp("county")), field("Notes", inp("notes"), null, true)], "Add supplier", async (v, f) => { await req("/suppliers", v); f.reset(); toast("Supplier added. Verify them once checked."); render(); })));
+  } else if (tab === "checks") {
+    const list = await req("/checks/suspicious?limit=100");
+    body = panel("warn", "Suspicious checks", "Codes that were fake, copied onto several bags, or from recalled batches. Many from one area can point to a fake seller.", table([
+      { h: "When", v: x => when(x.created_at) }, { h: "Result", v: x => chip({ not_found: "Fake code", repeat: "Copied label", recalled: "Recalled" }[x.result] || x.result, x.result === "repeat" ? "gold" : "red") },
+      { h: "Product", v: x => x.product ? `${x.product}, batch ${x.batch_no}` : "Unknown" }, { h: "Phone", v: x => x.phone.startsWith("ip:") ? "Web check" : mask(x.phone) }, { h: "By", v: x => x.channel.toUpperCase() === "SMS" ? "SMS" : cap(x.channel) }], list));
+  } else if (tab === "complaints") {
+    const list = await req("/complaints?limit=100");
+    body = panel("flag", "Reports from farmers", "Several reports on one batch is a reason to test it at a lab.", table([
+      { h: "When", v: x => when(x.created_at) }, { h: "Product", v: x => `${x.product}, batch ${x.batch_no}` }, { h: "Farmer", v: x => x.farmer_name || mask(x.phone) }, { h: "Problem", v: x => x.problem }], list));
+  } else {
+    body = await batchesView();
+  }
+  return el("div", {}, top, tabs, body);
+}
+
+async function batchesView() {
+  const [list, sups, coopsList] = await Promise.all([req("/batches"), req("/suppliers"), req("/coops")]);
+  const open = list.find(b => b.id === st.open);
+  const listPanel = panel("bag", "Batches", "Click a batch to print codes, record lab results, ship to a cooperative or recall it.", table([
+    { h: "Product", v: b => [el("b", {}, b.product), el("div", { class: "small muted" }, `${cap(b.input_type)}, ${b.bag_kg} kg bags`)] },
+    { h: "Batch", v: b => b.batch_no }, { h: "Supplier", v: b => b.supplier_name }, { h: "Bags", num: 1, v: b => nf.format(b.bags) },
+    { h: "Checked", num: 1, v: b => nf.format(b.bags_checked) + (b.bags_checked_by_several_phones ? ` (${b.bags_checked_by_several_phones} copied)` : "") },
+    { h: "Lab", v: b => chip({ pass: "Passed", fail: "Failed", untested: "Not tested" }[b.lab_result], b.lab_result === "pass" ? "" : b.lab_result === "fail" ? "red" : "grey") },
+    { h: "Status", v: b => b.status === "recalled" ? chip("Recalled", "red") : b.codes_issued ? chip("Codes printed") : chip("No codes yet", "gold") }],
+    list, b => { st.open = b.id; render(); }));
+  const verified = sups.filter(s => s.status === "verified");
+  const addPanel = panel("sprout", "Register a batch", verified.length ? "From a verified supplier, as printed on the bags." : "Verify a supplier first.",
+    verified.length ? formBox([
+      field("Supplier", sel("supplier_id", verified.map(s => [s.id, s.name])), null, true),
+      field("Product", inp("product", { placeholder: "e.g. DAP planting fertilizer" }), null, true),
+      field("Type", sel("input_type", [["fertilizer", "Fertilizer"], ["seed", "Seed"], ["agrochemical", "Agrochemical"]])),
+      field("Batch no.", inp("batch_no")), field("Bag size (kg)", inp("bag_kg", { inputmode: "decimal" })), field("Number of bags", inp("bags", { inputmode: "numeric" })),
+      field("Made on", inp("made_on", { type: "date" })), field("Expires on", inp("expires_on", { type: "date" })),
+      field("Stated content", inp("stated_content", { placeholder: "e.g. N 18%, P2O5 46%" }), "As printed on the bag. The lab result is compared with this.", true)],
+      "Register batch", async (v, f) => { const b = await req("/batches", Object.assign(v, { bag_kg: parseFloat(v.bag_kg) || 0, bags: parseInt(v.bags, 10) || 0 })); f.reset(); st.open = b.id; toast("Batch registered. Print its bag codes next."); render(); }) : null);
+  if (!open) return el("div", { class: "side" }, listPanel, addPanel);
+
+  const b = open;
+  const harvest = el("div", {});
+  const detail = panel("bag", `${b.product}, batch ${b.batch_no}`, `${b.supplier_name}. ${nf.format(b.bags)} bags of ${b.bag_kg} kg. ${b.stated_content ? "Stated: " + b.stated_content + "." : ""}`,
+    el("div", { class: "stats" },
+      el("div", { class: "stat" }, el("div", {}, el("b", {}, nf.format(b.bags_shipped)), el("span", {}, "bags shipped"))),
+      el("div", { class: "stat" }, el("div", {}, el("b", {}, nf.format(b.bags_issued_to_farmers)), el("span", {}, "given to farmers"))),
+      el("div", { class: "stat" }, el("div", {}, el("b", {}, nf.format(b.bags_checked)), el("span", {}, "checked by buyers"))),
+      el("div", { class: "stat" + (b.complaints ? " gold" : "") }, el("div", {}, el("b", {}, nf.format(b.complaints)), el("span", {}, "farmer reports")))),
+    b.status === "recalled" ? el("div", { class: "verdict high" }, el("b", {}, "Recalled. "), b.recall_reason) : [
+      el("h3", { class: "mt" }, "Bag codes"),
+      b.codes_issued ? el("p", { class: "muted" }, "Codes were printed once and cannot be shown again. Only their fingerprints are stored, so nobody can copy them from here.")
+        : el("div", { class: "inline" }, el("p", { class: "full" }, `Creates ${nf.format(b.bags)} unique codes and downloads them as a spreadsheet for the label printer. They are shown only this once: keep the file safe.`),
+          smallBtn("Create and download codes", "go", async () => {
+            try {
+              const res = await req(`/batches/${b.id}/codes`, {}, true);
+              const blob = await res.blob();
+              const name = (res.headers.get("Content-Disposition") || "").match(/filename="([^"]+)"/);
+              const a = el("a", { href: URL.createObjectURL(blob), download: name ? name[1] : "bag-codes.csv" }); document.body.append(a); a.click(); a.remove();
+              toast("Codes downloaded. Print them on the bag labels."); render();
+            } catch (e) { toast(e.message, true); }
+          })),
+      el("h3", { class: "mt" }, "Lab test"),
+      inline([field("Result", sel("result", [["pass", "Passed"], ["fail", "Failed"]])), field("Measured content", inp("content", { value: b.lab_content || "" })), field("Lab report no.", inp("ref", { value: b.lab_ref || "" }))],
+        "Save lab result", v => act(() => req(`/batches/${b.id}/lab`, v), "Lab result saved")),
+      el("h3", { class: "mt" }, "Ship to a cooperative"),
+      inline([field("Cooperative", sel("coop_id", [["", "Another buyer"], ...coopsList.map(c => [c.id, c.name])])), field("Or buyer name", inp("to_name")), field("Bags", inp("bags", { inputmode: "numeric" }))],
+        "Record shipment", v => act(() => req(`/batches/${b.id}/ship`, { coop_id: v.coop_id, to_name: v.to_name, bags: parseInt(v.bags, 10) || 0 }), "Shipment recorded")),
+      el("h3", { class: "mt" }, "Recall"),
+      inline([field("Reason (sent by SMS to every farmer who got or checked it)", inp("reason", { placeholder: "e.g. failed lab test: low nitrogen" }))], "Recall batch",
+        v => act(() => req(`/batches/${b.id}/recall`, v), r => `Recalled. ${r.farmers_told} people told by SMS.`), "warn")],
+    el("h3", { class: "mt" }, "Harvest comparison (AI)"),
+    el("p", { class: "muted" }, "Compares harvests of farms that used this batch with farms that did not."),
+    smallBtn("Compare harvests", "", async () => {
+      try {
+        const v = await req(`/batches/${b.id}/harvest`);
+        harvest.replaceChildren(el("div", { class: "verdict " + v.level }, v.enough_data
+          ? el("b", {}, `Farms using this batch: ${nf.format(Math.round(v.batch_median))} kg per acre. Others: ${nf.format(Math.round(v.other_median))} kg per acre (${v.difference_pct > 0 ? "+" : ""}${Math.round(v.difference_pct)}%).`)
+          : el("b", {}, "Not enough farms yet to compare."), reasons(v.reasons)));
+      } catch (e) { toast(e.message, true); }
+    }), harvest);
+  return el("div", {}, el("button", { class: "back", type: "button", onclick: () => { st.open = null; render(); } }, icon("back"), "All batches"), detail);
+}
+
+/* ---------------- money ---------------- */
+async function money() {
+  if (st.sub) return payrunDetail(st.sub);
+  const [rec, fundings, runs, payouts] = await Promise.all([req("/reconciliation"), req("/fundings"), req("/payruns"), req("/payouts")]);
+  const L = rec.latest;
+  const problem = payouts.filter(p => ["unknown", "manual", "failed"].includes(p.status));
+  const testMode = rec.mode === "test";
+  return el("div", {}, head("Money", `${testMode ? "Test payments: nothing leaves a real account." : "Payments through " + rec.provider + "."} Cooperatives add money, managers approve pay runs, farmers are paid by M-Pesa.`),
+    el("div", { class: "grid2" },
+      panel("shield", "Daily money check", "Compares the payment account with what the records say should be there.",
+        L ? el("div", { class: "verdict " + (L.status === "ok" ? "" : "high") }, el("b", {}, L.status === "ok" ? "Balanced." : "Mismatch."), " ", L.detail, el("div", { class: "small muted" }, when(L.created_at)))
+          : el("div", { class: "empty" }, "Not run yet."),
+        el("div", { class: "mt" }, smallBtn("Run the check now", "", () => act(() => req("/reconciliation/run", {}), "Money check done")))),
+      panel("coins", "Money coming in", testMode ? "Test mode: confirm a funding only when the money is really in." : "Confirmed automatically by the payment company.", table([
+        { h: "Cooperative", v: f => f.coop_name }, { h: "Amount", num: 1, v: f => kes(f.amount) }, { h: "When", v: f => when(f.created_at) },
+        { h: "Status", v: f => f.status === "pending" && f.test ? el("div", { class: "acts" }, smallBtn("Confirm", "go", () => act(() => req(`/fundings/${f.id}/confirm`, {}), "Funding confirmed")), smallBtn("Reject", "warn", () => act(() => req(`/fundings/${f.id}/reject`, {}), "Funding rejected")))
+          : chip(cap(f.status), f.status === "completed" ? "" : f.status === "pending" ? "gold" : "grey") }], fundings.slice(0, 12)))),
+    panel("farmer", "Pay runs", "A manager prepares each run in the field app. A second manager, or you, approves it.", table([
+      { h: "Cooperative", v: r => r.coop_name }, { h: "Prepared by", v: r => r.created_by }, { h: "Farmers", num: 1, v: r => r.farmers }, { h: "Total", num: 1, v: r => kes(r.total) },
+      { h: "When", v: r => when(r.created_at) },
+      { h: "Status", v: r => chip(r.status === "draft" ? "Needs approval" : r.status === "cancelled" ? "Cancelled" : r.problems ? `${r.problems} need checking` : `${r.paid} of ${r.farmers} paid`, r.status === "draft" ? "gold" : r.status === "cancelled" ? "grey" : r.problems ? "red" : "") }],
+      runs, r => go("money", r.id))),
+    panel("warn", "Payments needing a person", "The payment company gave no clear answer, or the payment cannot be sent automatically. Check your payment dashboard before acting.",
+      problem.length ? table([
+        { h: "Farmer", v: p => [el("b", {}, p.name), el("div", { class: "small muted" }, p.coop_name)] }, { h: "Phone", v: p => p.phone }, { h: "Amount", num: 1, v: p => kes(p.amount) },
+        { h: "Problem", v: p => [chip(cap(p.status), "red"), el("div", { class: "small muted" }, p.last_error)] },
+        { h: "", v: p => el("div", {}, unpaidForm(p),
+          inline([field("M-Pesa receipt (if it was paid)", inp("receipt"))], "Mark paid", v => act(() => req(`/payouts/${p.id}/mark-paid`, v), "Marked paid"))) }], problem)
+        : el("div", { class: "empty" }, "Nothing needs attention.")));
+}
+
+// Sending again or returning needs proof the farmer was not already paid: AgriProof asks the payment
+// company when it can, otherwise the operator writes down what they checked.
+function unpaidForm(p) {
+  const reason = inp("reason", { placeholder: "What you checked, e.g. no payment to this number in the dashboard" });
+  const go = (verb, msg) => act(() => req(`/payouts/${p.id}/${verb}`, { reason: reason.value }), msg);
+  return el("div", { class: "inline" }, field("Checked that it was not paid", reason),
+    smallBtn("Send again", "", () => go("retry", "Queued to send again")),
+    smallBtn("Return to next run", "warn", () => go("return", "Returned: it will be in the next pay run")));
+}
+
+async function payrunDetail(id) {
+  const d = await req(`/payruns/${id}`);
+  const p = d.payrun;
+  return el("div", {}, el("button", { class: "back", type: "button", onclick: () => go("money") }, icon("back"), "Money"),
+    head(`${kes(p.total)} for ${p.farmers} farmers`, `${p.coop_name}. Prepared by ${p.created_by} on ${when(p.created_at)}.${p.approved_by ? " Approved by " + p.approved_by + "." : ""}`,
+      p.status === "draft" ? [el("button", { class: "btn go", type: "button", onclick: () => act(() => req(`/payruns/${id}/approve`, {}), "Approved. Payments are being sent.") }, icon("coins"), "Approve and pay"),
+        el("button", { class: "btn warn", type: "button", onclick: () => act(() => req(`/payruns/${id}/cancel`, {}), "Pay run cancelled") }, "Cancel")] : chip(cap(p.status))),
+    panel("farmer", "Farmers", null, table([
+      { h: "No.", v: l => l.member_no }, { h: "Farmer", v: l => el("b", {}, l.name) }, { h: "Phone", v: l => l.phone }, { h: "Deliveries", num: 1, v: l => l.deliveries },
+      { h: "Weight", num: 1, v: l => kg(l.kg) }, { h: "Amount", num: 1, v: l => kes(l.amount) },
+      { h: "Payment", v: l => l.payout_status ? chip(cap(l.payout_status), l.payout_status === "paid" ? "" : ["unknown", "manual", "failed"].includes(l.payout_status) ? "red" : "gold") : null }], d.lines)));
+}
+
+/* ---------------- activity ---------------- */
+async function audit() {
+  const list = await req("/audit?limit=200");
+  return el("div", {}, head("Activity log", "Every sign-in and every change, by whom and from where. It cannot be edited."),
+    panel("book", "Latest activity", null, table([
+      { h: "When", v: a => when(a.created_at) }, { h: "Who", v: a => [el("b", {}, a.actor), el("div", { class: "small muted" }, a.actor_type)] },
+      { h: "What", v: a => a.action.replace(/[._]/g, " ") }, { h: "Detail", v: a => el("span", { class: "mono" }, a.detail ? JSON.stringify(a.detail).slice(0, 140) : a.target) }, { h: "From", v: a => a.ip }], list)));
+}
+
+start();
+})();
+</script>
+</body>
+</html>

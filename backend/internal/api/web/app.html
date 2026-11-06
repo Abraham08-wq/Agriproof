@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F7A2E">
+<meta name="description" content="AgriProof field app: honest weights, genuine fertilizer, fair pay.">
+<title>AgriProof</title>
+<link rel="manifest" href="/app/manifest.webmanifest">
+<link rel="icon" href="/app/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+<style nonce="{{NONCE}}">
+{{THEME}}
+body{min-height:100dvh}
+.shell{max-width:620px;margin:0 auto;padding:0 16px calc(var(--safe-bottom) + 40px)}
+.bar{position:sticky;top:0;z-index:5;background:rgba(247,252,241,.94);backdrop-filter:blur(6px);display:flex;align-items:center;gap:8px;
+  padding:calc(var(--safe-top) + 8px) 12px 8px;max-width:620px;margin:0 auto}
+.bar .brand{flex:1;display:flex;align-items:center;gap:8px;font-family:var(--display);font-weight:800;font-size:20px;min-width:0}
+.bar .brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .brand svg{width:28px;height:28px;flex:none}
+.iconbtn{width:46px;height:46px;border-radius:14px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:var(--stalk);position:relative}
+.iconbtn:active{background:var(--shoot)}
+.iconbtn svg{width:26px;height:26px}
+.dot{position:absolute;top:6px;right:6px;min-width:18px;height:18px;border-radius:9px;background:var(--tomato);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+.mode{margin:4px 0 14px;padding:10px 14px;border-radius:var(--r-s);font-size:15px;background:var(--tassel-soft);color:var(--tassel-ink)}
+.mode.live{background:var(--shoot);color:var(--stalk-dark)}
+.mode b{margin-right:4px}
+
+/* sign in */
+.signin-photo{height:34vh;min-height:220px;margin:0 -16px;background:url("/brand/rows.jpg") center/cover no-repeat,linear-gradient(150deg,#7AD36C,#2E9A3A);position:relative;overflow:hidden}
+.signin-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,252,241,0) 55%,var(--morning))}
+.signin-card{margin-top:-60px;position:relative;z-index:2;background:var(--paper);border-radius:var(--r-l);padding:24px 22px;border:1px solid var(--line);box-shadow:0 20px 40px -26px rgba(31,122,46,.5)}
+.signin-card .plant{float:right;width:64px;height:118px;margin:-80px -4px 0 0}
+.signin-card h1{font-size:32px}
+.signin-card p{color:var(--soil-2)}
+.codein{font-size:30px;letter-spacing:.4em;text-align:center;font-weight:700}
+
+/* home */
+.hello{margin:6px 0 2px;font-size:30px}
+.greet{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.greet .maize{width:54px;height:99px;flex:none;margin:-10px 4px -4px 0}
+.sub{color:var(--soil-2);margin:0 0 18px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-height:116px;padding:16px;border-radius:var(--r-m);border:1px solid var(--line);
+  background:var(--paper);cursor:pointer;text-align:left;font-weight:700;font-size:17px;position:relative;transition:transform .12s ease}
+.tile:active{transform:scale(.97)}
+.tile .ti{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;background:var(--shoot);color:var(--stalk)}
+.tile .ti svg{width:30px;height:30px}
+.tile.wide,.tiles .tile:not(.main):last-child:nth-child(even){grid-column:1 / -1;flex-direction:row;align-items:center;min-height:84px}
+.tile.main{grid-column:1 / -1;flex-direction:row;align-items:center;min-height:96px;background:var(--stalk);color:#fff;border-color:var(--stalk)}
+.tile.main .ti{background:rgba(255,255,255,.16);color:#fff}
+.tile.gold .ti{background:var(--tassel-soft);color:var(--tassel-ink)}
+.tile.sky .ti{background:var(--sky-soft);color:#1D6694}
+.tile small{display:block;font-weight:400;color:var(--soil-2);font-size:14px}
+.tile.main small{color:#DDF5D3}
+.tile .dot{top:12px;right:12px}
+h2.sec{font-size:22px;margin:28px 0 10px}
+.list{display:grid;gap:10px}
+.row{display:flex;gap:12px;align-items:center;padding:14px;border-radius:var(--r-m);background:var(--paper);border:1px solid var(--line)}
+.ri{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none;background:var(--shoot);color:var(--stalk)}
+.ri svg{width:24px;height:24px}
+.row .rm{flex:1;min-width:0}
+.row .rm b{display:block}
+.row .rm span{color:var(--soil-2);font-size:14px}
+.row .amt{font-weight:700;white-space:nowrap;text-align:right}
+.row.tap{cursor:pointer;width:100%;text-align:left;font:inherit}
+.empty{padding:22px;text-align:center;color:var(--soil-2);background:var(--paper);border:1px dashed var(--line);border-radius:var(--r-m)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 6px}
+.stat{padding:16px;border-radius:var(--r-m);background:var(--paper);border:1px solid var(--line)}
+.stat b{display:block;font-family:var(--display);font-size:28px;font-weight:800;color:var(--stalk);letter-spacing:-.02em}
+.stat span{color:var(--soil-2);font-size:14px}
+.stat.wide{grid-column:1 / -1;background:var(--shoot);border-color:var(--shoot-2)}
+
+/* forms and results */
+.page h1{font-size:28px;margin:6px 0 4px}
+.page .lead{color:var(--soil-2);margin:0 0 18px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px}
+.seg button{min-height:54px;border-radius:var(--r-s);border:2px solid var(--line);background:var(--paper);font-weight:700;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--stalk);background:var(--shoot);color:var(--stalk-dark)}
+.weight{display:flex;align-items:center;border:2px solid var(--line);border-radius:var(--r-s);background:var(--paper)}
+.weight:focus-within{border-color:var(--leaf);box-shadow:0 0 0 4px rgba(76,185,68,.18)}
+.weight input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-family:var(--display);font-size:40px;font-weight:800;padding:8px 14px;color:var(--soil)}
+.weight span{padding:0 16px;font-weight:700;color:var(--soil-2);font-size:20px}
+.picked{display:flex;gap:12px;align-items:center;padding:14px;border-radius:var(--r-m);background:var(--shoot);margin:0 0 16px}
+.picked b{display:block;font-size:18px}
+.picked .btn{margin-left:auto}
+.result{border-radius:var(--r-l);padding:24px;text-align:center;animation:rise .35s ease}
+.result .big{width:84px;height:84px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--leaf);color:#fff;animation:pop .5s ease}
+.result .big svg{width:46px;height:46px}
+.result h2{font-size:26px}
+.result p{margin:8px 0 0}
+.result.ok{background:var(--shoot)}
+.result.held{background:var(--tassel-soft)} .result.held .big{background:var(--tassel);color:#3B2A00}
+.result.bad{background:var(--tomato-soft)} .result.bad .big{background:var(--tomato)}
+.reasons{text-align:left;margin:14px 0 0;padding:12px 14px 12px 32px;border-radius:var(--r-s);background:rgba(255,255,255,.75)}
+.reasons li{margin:4px 0}
+.receipt{font-family:var(--mono);font-size:15px;color:var(--soil-2);margin-top:8px}
+.actions{display:grid;gap:10px;margin-top:18px}
+.flag{padding:16px;border-radius:var(--r-m);background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--tassel)}
+.flag h3{font-size:19px}
+.flag .meta{color:var(--soil-2);font-size:14px;margin:2px 0 0}
+.flag .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.check-row{display:flex;gap:12px;align-items:center;padding:12px;border-radius:var(--r-s);background:var(--paper);border:1px solid var(--line)}
+.check-row input{width:24px;height:24px;accent-color:var(--stalk)}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(var(--safe-bottom) + 18px);max-width:588px;margin:0 auto;padding:14px 18px;border-radius:var(--r-m);
+  background:var(--soil);color:#fff;font-weight:700;z-index:20;transition:opacity .25s, transform .25s}
+.toast.off{opacity:0;transform:translateY(16px);pointer-events:none}
+.toast.bad{background:#A3301A}
+.center{display:grid;place-items:center;padding:60px 0}
+.plantbox{display:grid;place-items:center;padding:40px 0 10px}
+.plantbox svg{width:90px;height:165px}
+.full{width:100%}
+.mt{margin-top:12px}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+</style>
+</head>
+<body>
+<header class="bar" id="bar">
+  <button class="iconbtn hidden" id="back" type="button" aria-label="Back"></button>
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V12" stroke="#1F7A2E" stroke-width="3" stroke-linecap="round"/><path d="M16 18C10 18 5 14 4 7c7 0 12 4 12 11z" fill="#4CB944"/><path d="M16 14c0-6 4-10 11-10-1 7-5 11-11 10z" fill="#1F7A2E"/></svg><span id="title">AgriProof</span></div>
+  <button class="iconbtn hidden" id="out" type="button" aria-label="Sign out"></button>
+</header>
+<main class="shell" id="view"></main>
+<div class="toast off" id="toast" role="status" aria-live="polite"></div>
+
+<script nonce="{{NONCE}}">
+"use strict";
+(() => {
+const $ = s => document.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+const view = $("#view");
+const put = (...kids) => view.replaceChildren(...kids.flat().filter(k => k != null && k !== false));
+
+/* ---------- small helpers ---------- */
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : document.createTextNode(String(k)));
+  return n;
+}
+function icon(name) {
+  const s = document.createElementNS(NS, "svg");
+  for (const [k, v] of Object.entries({ viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "2.1", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" })) s.setAttribute(k, v);
+  for (const d of (ICON[name] || ICON.leaf).split("|")) { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); s.append(p); }
+  return s;
+}
+const ICON = {
+  leaf: "M5 19c0-8 6-14 15-14 0 9-6 15-14 15|M5 19l7-7",
+  scale: "M12 3v3|M5 7h14|M5 7l-3 7a3 3 0 006 0L5 7|M19 7l-3 7a3 3 0 006 0l-3-7|M12 6v14|M8 21h8",
+  farmer: "M12 12a4 4 0 100-8 4 4 0 000 8z|M4 21c0-4 3.6-7 8-7s8 3 8 7|M7 6.5c1.5-3 8.5-3 10 0",
+  bag: "M7 8h10l2 12H5L7 8z|M9 8V6a3 3 0 016 0v2|M10 13h4|M12 13v4",
+  shield: "M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z|M8.5 12.5l2.5 2.5 4.5-5",
+  flag: "M5 21V4|M5 4h11l-2 4 2 4H5",
+  coins: "M8 7a5 2.5 0 1010 0A5 2.5 0 008 7z|M8 7v5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V7|M6 12.5c-1.8.4-3 1.2-3 2v4c0 1.4 2.2 2.5 5 2.5 2.2 0 4-.7 4.7-1.6",
+  truck: "M3 6h11v10H3z|M14 10h4l3 3v3h-7|M7 19a2 2 0 100-4 2 2 0 000 4z|M17 19a2 2 0 100-4 2 2 0 000 4z",
+  tag: "M3 12V4h8l10 10-8 8L3 12z|M7.5 8a.5.5 0 100-1 .5.5 0 000 1z",
+  back: "M15 18l-6-6 6-6",
+  out: "M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4|M16 17l5-5-5-5|M21 12H9",
+  check: "M20 6L9 17l-5-5",
+  x: "M6 6l12 12|M18 6L6 18",
+  warn: "M12 4l9 16H3L12 4z|M12 10v4|M12 17.5v.01",
+  pin: "M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z|M12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z",
+  sprout: "M12 21v-9|M12 12C12 7 8 4 3 4c0 5 4 8 9 8z|M12 14c0-4 3-7 9-7 0 4-3 7-9 7z",
+};
+$("#back").append(icon("back"));
+$("#out").append(icon("out"));
+
+const nf = new Intl.NumberFormat("en-KE");
+const kes = n => "KES " + nf.format(Math.round(n));
+const kg = n => nf.format(Math.round(n * 10) / 10) + " kg";
+const when = t => { const d = new Date(t); return d.toLocaleDateString("en-KE", { day: "numeric", month: "short" }) + ", " + d.toLocaleTimeString("en-KE", { hour: "2-digit", minute: "2-digit" }); };
+const phoneFmt = p => /^254\d{9}$/.test(p) ? `0${p.slice(3, 6)} ${p.slice(6, 9)} ${p.slice(9)}` : p;
+const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+const store = { get(k) { try { return localStorage.getItem(k) || ""; } catch { return ""; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
+
+let toastT;
+function toast(msg, bad) { const t = $("#toast"); t.textContent = msg; t.className = "toast" + (bad ? " bad" : ""); clearTimeout(toastT); toastT = setTimeout(() => t.classList.add("off"), 4200); }
+
+class AuthError extends Error {}
+async function api(path, body) {
+  let res;
+  try {
+    res = await fetch(path, { method: body ? "POST" : "GET", credentials: "same-origin",
+      headers: Object.assign({ "X-Requested-With": "agriproof", "X-Client": "web" }, body ? { "Content-Type": "application/json" } : {}),
+      body: body ? JSON.stringify(body) : undefined });
+  } catch { throw new Error("No connection. Check your signal and try again."); }
+  let data = null; try { data = await res.json(); } catch {}
+  if (res.status === 401 && !path.startsWith("/auth/")) throw new AuthError("Please sign in again.");
+  if (!res.ok) throw new Error(cleanErr(data && data.error) || `Something went wrong (${res.status}).`);
+  return data;
+}
+function cleanErr(s) { if (!s) return ""; s = s.replace(/^(validation failed|conflict|forbidden|not found|unauthorized|unavailable): ?/i, ""); return cap(s); }
+
+function maize() {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 120 220"); s.setAttribute("class", "maize"); s.setAttribute("aria-hidden", "true");
+  const add = (p, attrs) => { const e = document.createElementNS(NS, "path"); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); p.append(e); return e; };
+  add(s, { class: "ground", d: "M14 212 Q60 204 106 212" });
+  const g = document.createElementNS(NS, "g"); g.setAttribute("class", "sway"); s.append(g);
+  add(g, { class: "stalk", d: "M60 210 C58 160 62 110 60 40" });
+  add(g, { class: "lf l1", d: "M60 152 C40 140 20 150 6 174 C28 162 44 160 60 160 Z" });
+  add(g, { class: "lf r1", d: "M60 126 C82 112 102 118 116 140 C96 131 78 131 60 134 Z" });
+  add(g, { class: "cob", d: "M62 118 C68 102 74 96 78 84 C84 98 78 112 65 121 Z" });
+  add(g, { class: "lf l2", d: "M60 96 C42 80 22 82 10 99 C28 92 44 95 60 103 Z" });
+  add(g, { class: "lf r2", d: "M60 70 C76 55 94 55 106 68 C92 66 76 69 60 77 Z" });
+  add(g, { class: "tas", d: "M60 42 L50 20 M60 42 L60 12 M60 42 L70 20" });
+  return s;
+}
+function loading() { put(el("div", { class: "plantbox" }, maize())); }
+
+/* ---------- state and routing ---------- */
+const state = { me: null, role: null, coop: null, phone: "", codeSent: false, testSMS: false, crops: [] };
+
+function setBar(title, back) {
+  $("#title").textContent = title || "AgriProof";
+  $("#back").classList.toggle("hidden", !back);
+  $("#out").classList.toggle("hidden", !state.me || !!back);
+}
+$("#back").addEventListener("click", () => history.length > 1 ? history.back() : (location.hash = ""));
+$("#out").addEventListener("click", async () => { try { await api("/me/logout", {}); } catch {} state.me = null; location.hash = ""; showSignIn(); });
+
+/* The person may be staff in one cooperative and a farmer in another: "role" picks the one in use. */
+function roles(me) {
+  const out = me.staff.map(s => ({ key: "s:" + s.coop_id, kind: "staff", coopId: s.coop_id, coopName: s.coop_name, role: s.role, staff: s }));
+  for (const f of me.farmer) out.push({ key: "f:" + f.coop_id, kind: "farmer", coopId: f.coop_id, coopName: f.coop_name, farmer: f });
+  return out;
+}
+
+async function route() {
+  try {
+    if (!state.me) { loading(); state.me = await api("/me"); }
+    const list = roles(state.me);
+    if (!list.length) return noRole();
+    state.role = list.find(r => r.key === store.get("ap_role")) || list[0];
+    const h = location.hash.slice(1);
+    const [page, arg] = h.split("/");
+    const staffPages = { deliver: showDeliver, register: showRegister, give: showGive, flags: showFlags, pay: showPay, lots: showLots, prices: showPrices };
+    if (page === "check") return showCheck();
+    if (page === "role") return showRoles(list);
+    if (state.role.kind === "staff" && staffPages[page]) return await staffPages[page](arg);
+    return state.role.kind === "staff" ? await staffHome() : await farmerHome();
+  } catch (e) {
+    if (e instanceof AuthError) return showSignIn();
+    put(el("div", { class: "empty mt" }, e.message, el("div", { class: "mt" }, el("button", { class: "btn", type: "button", onclick: route }, "Try again"))));
+  }
+}
+addEventListener("hashchange", () => { window.scrollTo(0, 0); route(); });
+
+function modeBanner() {
+  const m = state.me && state.me.payments_mode;
+  if (m === "live") return null;
+  return el("div", { class: "mode" }, el("b", {}, m === "sandbox" ? "Sandbox." : "Test mode."), m === "sandbox" ? "Payments use the payment company's test system." : "No real money moves yet.");
+}
+
+/* ---------- sign in ---------- */
+function showSignIn(msg) {
+  setBar("AgriProof", false);
+  const phone = el("input", { class: "input", id: "phone", type: "tel", inputmode: "tel", autocomplete: "tel", placeholder: "0712 345 678", value: state.phone });
+  const code = el("input", { class: "input codein", id: "code", inputmode: "numeric", autocomplete: "one-time-code", maxlength: "6" });
+  const err = el("div", { class: "err", role: "alert" }, msg || "");
+  const go = el("button", { class: "btn go full", type: "submit" }, state.codeSent ? "Sign in" : "Send me a code");
+  const form = el("form", { onsubmit: async e => {
+    e.preventDefault(); err.textContent = ""; go.disabled = true;
+    try {
+      if (!state.codeSent) {
+        state.phone = phone.value.trim();
+        if (!/^\+?[0-9\s-]{9,18}$/.test(state.phone)) throw new Error("Enter your phone number, for example 0712 345 678.");
+        const r = await api("/auth/otp/request", { phone: state.phone });
+        state.codeSent = true; state.testSMS = !!r.test_mode; return showSignIn();
+      }
+      if (!/^\d{6}$/.test(code.value)) throw new Error("Enter the 6-digit code from the SMS.");
+      await api("/auth/otp/verify", { phone: state.phone, code: code.value, device: "field app" });
+      state.codeSent = false; state.me = null; location.hash = ""; route();
+    } catch (ex) { err.textContent = ex.message; if (state.codeSent) { code.value = ""; code.focus(); } }
+    finally { go.disabled = false; }
+  } },
+    state.codeSent ? el("label", { class: "field" }, el("span", {}, "6-digit code"), code) : el("label", { class: "field" }, el("span", {}, "Your phone number"), phone),
+    err, go,
+    state.codeSent ? el("button", { class: "btn ghost full mt", type: "button", onclick: () => { state.codeSent = false; showSignIn(); } }, "Use a different number") : null);
+  code.addEventListener("input", () => { code.value = code.value.replace(/\D/g, "").slice(0, 6); if (code.value.length === 6) form.requestSubmit(); });
+  const plant = el("div", { class: "plant" }, maize());
+  put(
+    el("div", { class: "signin-photo", role: "img", "aria-label": "Rows of green crops" }),
+    el("section", { class: "signin-card" }, plant,
+      el("h1", {}, state.codeSent ? "Enter your code" : "Karibu"),
+      el("p", {}, state.codeSent
+        ? (state.testSMS ? `SMS is in test mode, so ask your AgriProof operator for the code sent to ${state.phone}.` : `We sent a 6-digit code to ${state.phone}.`)
+        : "Sign in with the phone number your cooperative registered."),
+      form),
+    el("p", { class: "muted small mt" }, "Checking a fertilizer bag? You do not need to sign in: ", el("a", { href: "/check" }, "check a bag here"), "."),
+    el("p", { class: "credit mt" }, "Photo: Bernd Dittrich on Unsplash"));
+  (state.codeSent ? code : phone).focus();
+}
+
+function noRole() {
+  setBar("AgriProof", false);
+  put(el("div", { class: "plantbox" }, maize()), el("h1", { class: "hello" }, "Not registered yet"),
+    el("p", { class: "sub" }, "This phone number is not registered with a cooperative. Ask your cooperative office to register you."));
+}
+
+function showRoles(list) {
+  setBar("Switch", true);
+  put(el("div", { class: "page" }, el("h1", {}, "Where are you working?"), el("div", { class: "list" },
+    list.map(r => el("button", { class: "row tap", type: "button", onclick: () => { store.set("ap_role", r.key); location.hash = ""; } },
+      el("div", { class: "ri" }, icon(r.kind === "farmer" ? "sprout" : r.role === "manager" ? "flag" : "scale")),
+      el("div", { class: "rm" }, el("b", {}, r.coopName), el("span", {}, r.kind === "farmer" ? "As a farmer" : cap(r.role))))))));
+}
+
+/* ---------- staff home ---------- */
+async function staffHome() {
+  const r = state.role;
+  setBar(r.coopName, false);
+  const d = await api(`/me/coop/${r.coopId}`);
+  state.coop = d; state.crops = d.crops;
+  const flags = d.held_deliveries.length + d.held_farmers.length;
+  const manager = d.me.role === "manager";
+  const today = await api(`/me/coop/${r.coopId}/deliveries?limit=8`);
+  const tile = (cls, ic, label, small, onclick, dot) => el("button", { class: "tile " + cls, type: "button", onclick },
+    el("div", { class: "ti" }, icon(ic)), el("div", {}, label, small ? el("small", {}, small) : null), dot ? el("span", { class: "dot" }, dot) : null);
+  put(
+    modeBanner(),
+    el("div", { class: "greet" }, el("div", {}, el("h1", { class: "hello" }, `Habari, ${(d.me.name || "").split(" ")[0]}`),
+      el("p", { class: "sub" }, `${cap(d.me.role)}${d.me.centre_name ? " at " + d.me.centre_name : ""}. `,
+        roles(state.me).length > 1 ? el("a", { href: "#role" }, "Switch") : null)), maize()),
+    el("div", { class: "tiles" },
+      tile("main", "scale", "Record a delivery", "Weigh, grade, and the farmer gets an SMS receipt", () => location.hash = "#deliver"),
+      tile("", "farmer", "Register a farmer", null, () => location.hash = "#register"),
+      tile("", "bag", "Give fertilizer", null, () => location.hash = "#give"),
+      tile("sky", "shield", "Check a bag", null, () => location.hash = "#check"),
+      manager ? tile("gold", "flag", "Review flags", flags ? `${flags} waiting` : "Nothing waiting", () => location.hash = "#flags", flags || null) : null,
+      manager ? tile("", "coins", "Pay farmers", `${kes(d.coop.owed)} owed`, () => location.hash = "#pay") : null,
+      manager ? tile("", "truck", "Lots for buyers", null, () => location.hash = "#lots") : null,
+      manager ? tile("", "tag", "Prices", null, () => location.hash = "#prices") : null),
+    el("h2", { class: "sec" }, "Latest deliveries"),
+    today.length ? el("div", { class: "list" }, today.map(deliveryRow)) : el("div", { class: "empty" }, "No deliveries yet. Record the first one above."));
+}
+
+function deliveryRow(x) {
+  const status = x.status === "held" ? el("span", { class: "chip gold" }, "Being checked") : x.status === "voided" ? el("span", { class: "chip grey" }, "Cancelled")
+    : x.paid ? el("span", { class: "chip" }, "Paid") : null;
+  return el("div", { class: "row" }, el("div", { class: "ri" }, icon("scale")),
+    el("div", { class: "rm" }, el("b", {}, `${x.farmer_name}`), el("span", {}, `${kg(x.weight_kg)} ${x.crop}, grade ${x.grade}. ${when(x.created_at)}`)),
+    el("div", { class: "amt" }, x.grade === "reject" ? "Rejected" : kes(x.amount), el("div", {}, status)));
+}
+
+/* ---------- pick a farmer ---------- */
+function farmerPicker(onPick) {
+  const q = el("input", { class: "input", type: "search", placeholder: "Member number, phone or name", autocomplete: "off" });
+  const list = el("div", { class: "list mt" });
+  let t;
+  const search = async () => {
+    const v = q.value.trim();
+    if (v.length < 1) { list.replaceChildren(); return; }
+    try {
+      const res = await api(`/me/coop/${state.role.coopId}/farmers?q=${encodeURIComponent(v)}&limit=8`);
+      list.replaceChildren(...(res.length ? res.map(f => el("button", { class: "row tap", type: "button", onclick: () => onPick(f) },
+        el("div", { class: "ri" }, icon("farmer")),
+        el("div", { class: "rm" }, el("b", {}, f.name), el("span", {}, `No. ${f.member_no}, ${phoneFmt(f.phone)}${f.village ? ", " + f.village : ""}`)),
+        f.status !== "active" ? el("span", { class: "chip gold" }, f.status === "held" ? "Waiting for manager" : cap(f.status)) : null))
+        : [el("div", { class: "empty" }, "No farmer found. ", el("a", { href: "#register" }, "Register them"), ".")]));
+    } catch (e) { list.replaceChildren(el("div", { class: "empty" }, e.message)); }
+  };
+  q.addEventListener("input", () => { clearTimeout(t); t = setTimeout(search, 250); });
+  setTimeout(() => q.focus(), 50);
+  return el("div", {}, el("label", { class: "field" }, el("span", {}, "Farmer"), q), list);
+}
+function pickedFarmer(f, change) {
+  return el("div", { class: "picked" }, el("div", { class: "ri" }, icon("farmer")),
+    el("div", {}, el("b", {}, f.name), el("span", { class: "muted small" }, `No. ${f.member_no}, ${f.acres} acres`)),
+    el("button", { class: "btn small ghost", type: "button", onclick: change }, "Change"));
+}
+
+/* ---------- record a delivery ---------- */
+async function showDeliver() {
+  setBar("Record a delivery", true);
+  if (!state.coop) state.coop = await api(`/me/coop/${state.role.coopId}`);
+  const priced = [...new Set(state.coop.prices.map(p => p.crop))];
+  const page = el("div", { class: "page" });
+  const step1 = () => page.replaceChildren(el("h1", {}, "Who is delivering?"), el("p", { class: "lead" }, "Find the farmer first."), farmerPicker(f => step2(f)));
+  const step2 = f => {
+    if (f.status !== "active") { toast("This farmer must be confirmed by a manager first.", true); return; }
+    if (!priced.length) { page.replaceChildren(el("div", { class: "empty" }, "No crop prices are set yet. A manager sets them under Prices.")); return; }
+    let grade = "1";
+    const crop = el("select", { class: "input", id: "crop" }, priced.map(c => el("option", { value: c }, cap((state.crops.find(x => x.code === c) || {}).name || c))));
+    const weight = el("input", { inputmode: "decimal", id: "kg", placeholder: "0", autocomplete: "off" });
+    const moist = el("input", { class: "input", inputmode: "decimal", id: "moist", placeholder: "Optional, e.g. 13.0" });
+    const segBtns = [["1", "Grade 1"], ["2", "Grade 2"], ["reject", "Reject"]].map(([v, l]) => el("button", { type: "button", "aria-pressed": v === grade ? "true" : "false",
+      onclick: e => { grade = v; segBtns.forEach(b => b.setAttribute("aria-pressed", "false")); e.currentTarget.setAttribute("aria-pressed", "true"); price(); } }, l));
+    const est = el("p", { class: "muted" });
+    const price = () => {
+      const p = state.coop.prices.find(x => x.crop === crop.value && x.grade === grade);
+      const w = parseFloat(weight.value);
+      est.textContent = grade === "reject" ? "Rejected produce is recorded but not paid." : p && w > 0 ? `About ${kes(w * p.price_per_kg)} at ${kes(p.price_per_kg)} per kg.` : p ? `${kes(p.price_per_kg)} per kg.` : "No price set for this grade.";
+    };
+    weight.addEventListener("input", () => { weight.value = weight.value.replace(/[^0-9.]/g, ""); price(); });
+    crop.addEventListener("change", price);
+    const err = el("div", { class: "err", role: "alert" });
+    const go = el("button", { class: "btn go full", type: "submit" }, icon("check"), "Record delivery");
+    page.replaceChildren(el("h1", {}, "Weigh and grade"), pickedFarmer(f, step1),
+      el("form", { onsubmit: async e => {
+        e.preventDefault(); err.textContent = "";
+        const w = parseFloat(weight.value);
+        if (!(w > 0)) { err.textContent = "Enter the weight shown on the scale."; return; }
+        const m = moist.value.trim() ? parseFloat(moist.value) : null;
+        go.disabled = true;
+        try {
+          const d = await api(`/me/coop/${state.role.coopId}/deliveries`, { farmer_id: f.id, crop: crop.value, grade, weight_kg: w, moisture: m });
+          done(d);
+        } catch (ex) { err.textContent = ex.message; } finally { go.disabled = false; }
+      } },
+        el("label", { class: "field" }, el("span", {}, "Crop"), crop),
+        el("div", { class: "field" }, el("span", {}, "Grade"), el("div", { class: "seg" }, segBtns)),
+        el("label", { class: "field" }, el("span", {}, "Weight"), el("div", { class: "weight" }, weight, el("span", {}, "kg"))),
+        el("label", { class: "field" }, el("span", {}, "Moisture %"), moist),
+        est, err, go));
+    price(); setTimeout(() => weight.focus(), 50);
+  };
+  const done = d => {
+    const held = d.status === "held";
+    page.replaceChildren(el("div", { class: "result " + (held ? "held" : "ok") },
+      el("div", { class: "big" }, icon(held ? "warn" : "check")),
+      el("h2", {}, held ? "Recorded, held for checking" : "Delivery recorded"),
+      el("p", {}, `${kg(d.weight_kg)} of ${d.crop}, grade ${d.grade}, from ${d.farmer_name}. ${d.grade === "reject" ? "" : kes(d.amount) + ". "}${d.farmer_name.split(" ")[0]} has been sent an SMS receipt.`),
+      el("div", { class: "receipt" }, `Receipt ${d.ref}, sealed record #${d.ledger_seq}`),
+      held ? el("div", {}, el("p", {}, "Our check found something unusual. A manager must review it before it is paid:"),
+        el("ul", { class: "reasons" }, d.ai_reasons.map(r => el("li", {}, cap(r))))) : null),
+      el("div", { class: "actions" },
+        el("button", { class: "btn go full", type: "button", onclick: step1 }, "Record another delivery"),
+        el("button", { class: "btn full", type: "button", onclick: () => location.hash = "" }, "Done")));
+  };
+  put(page); step1();
+}
+
+/* ---------- register a farmer ---------- */
+function showRegister() {
+  setBar("Register a farmer", true);
+  const name = el("input", { class: "input", autocomplete: "off", placeholder: "First and last name" });
+  const phone = el("input", { class: "input", type: "tel", inputmode: "tel", placeholder: "M-Pesa number, e.g. 0712 345 678" });
+  const village = el("input", { class: "input", placeholder: "Village or area" });
+  const acres = el("input", { class: "input", inputmode: "decimal", placeholder: "e.g. 1.5" });
+  let loc = null;
+  const locBtn = el("button", { class: "btn full", type: "button", onclick: () => {
+    if (!navigator.geolocation) { toast("This phone cannot share its location.", true); return; }
+    locBtn.disabled = true; locBtn.textContent = "Finding the farm…";
+    navigator.geolocation.getCurrentPosition(p => { loc = { lat: p.coords.latitude, lng: p.coords.longitude }; locBtn.replaceChildren(icon("pin"), "Farm location saved"); locBtn.disabled = false; },
+      () => { locBtn.disabled = false; locBtn.replaceChildren(icon("pin"), "Try the farm location again"); toast("Location not available. You can register without it.", true); }, { enableHighAccuracy: true, timeout: 15000 });
+  } }, icon("pin"), "Save farm location (stand on the farm)");
+  const err = el("div", { class: "err", role: "alert" });
+  const go = el("button", { class: "btn go full", type: "submit" }, "Register farmer");
+  const page = el("div", { class: "page" }, el("h1", {}, "Register a farmer"), el("p", { class: "lead" }, "Payments go to this phone number by M-Pesa."),
+    el("form", { onsubmit: async e => {
+      e.preventDefault(); err.textContent = ""; go.disabled = true;
+      try {
+        const body = { name: name.value, phone: phone.value, village: village.value, acres: parseFloat(acres.value) || 0 };
+        if (loc) { body.lat = loc.lat; body.lng = loc.lng; }
+        const r = await api(`/me/coop/${state.role.coopId}/farmers`, body);
+        const held = r.farmer.status === "held";
+        page.replaceChildren(el("div", { class: "result " + (held ? "held" : "ok") },
+          el("div", { class: "big" }, icon(held ? "warn" : "sprout")),
+          el("h2", {}, held ? "Waiting for a manager" : `${r.farmer.name} is registered`),
+          el("p", {}, held ? "Our check found something unusual, so a manager must confirm this farmer before deliveries can be recorded." : `Member number ${r.farmer.member_no}. A welcome SMS is on its way.`),
+          held ? el("ul", { class: "reasons" }, r.check.reasons.map(x => el("li", {}, cap(x)))) : null),
+          el("div", { class: "actions" },
+            !held ? el("button", { class: "btn go full", type: "button", onclick: () => location.hash = "#deliver" }, "Record a delivery") : null,
+            el("button", { class: "btn full", type: "button", onclick: () => { location.hash = "#register"; showRegister(); } }, "Register another farmer")));
+      } catch (ex) { err.textContent = ex.message; } finally { go.disabled = false; }
+    } },
+      el("label", { class: "field" }, el("span", {}, "Full name"), name),
+      el("label", { class: "field" }, el("span", {}, "Phone number"), phone),
+      el("label", { class: "field" }, el("span", {}, "Village"), village),
+      el("label", { class: "field" }, el("span", {}, "Farm size in acres"), acres, el("small", {}, "Used to spot produce brought in from elsewhere.")),
+      el("div", { class: "field" }, locBtn), err, go));
+  put(page); name.focus();
+}
+
+/* ---------- give fertilizer ---------- */
+async function showGive() {
+  setBar("Give fertilizer", true);
+  const page = el("div", { class: "page" });
+  const batches = await api(`/me/coop/${state.role.coopId}/batches`);
+  const step1 = () => page.replaceChildren(el("h1", {}, "Who is receiving it?"), el("p", { class: "lead" }, "Each bag is linked to the farmer, so a bad batch can be traced and recalled."), farmerPicker(f => step2(f)));
+  const step2 = f => {
+    const code = el("input", { class: "input codein", autocapitalize: "characters", placeholder: "ABCD-EFGH-JKMN", maxlength: "16" });
+    const batch = el("select", { class: "input" }, el("option", { value: "" }, "Choose the batch"), batches.map(b => el("option", { value: b.id }, `${b.product}, batch ${b.batch_no} (${b.supplier_name})`)));
+    const bags = el("input", { class: "input", inputmode: "decimal", placeholder: "Number of bags" });
+    const err = el("div", { class: "err", role: "alert" });
+    const go = el("button", { class: "btn go full", type: "submit" }, icon("bag"), "Give to farmer");
+    page.replaceChildren(el("h1", {}, "Scan or type the bag code"), pickedFarmer(f, step1),
+      el("form", { onsubmit: async e => {
+        e.preventDefault(); err.textContent = ""; go.disabled = true;
+        try {
+          const body = { farmer_id: f.id };
+          if (code.value.trim()) body.code = code.value; else { body.batch_id = batch.value; body.bags = parseFloat(bags.value) || 0; if (!body.batch_id) throw new Error("Type the bag code, or choose a batch."); }
+          const x = await api(`/me/coop/${state.role.coopId}/inputs`, body);
+          page.replaceChildren(el("div", { class: "result ok" }, el("div", { class: "big" }, icon("bag")),
+            el("h2", {}, "Given and recorded"), el("p", {}, `${x.bags} bag(s) of ${x.product}, batch ${x.batch_no}, to ${x.farmer_name}. They have been sent an SMS.`)),
+            el("div", { class: "actions" }, el("button", { class: "btn go full", type: "button", onclick: () => step2(f) }, "Give another bag to " + f.name.split(" ")[0]),
+              el("button", { class: "btn full", type: "button", onclick: step1 }, "Another farmer")));
+        } catch (ex) { err.textContent = ex.message; } finally { go.disabled = false; }
+      } },
+        el("label", { class: "field" }, el("span", {}, "Bag code"), code, el("small", {}, "Every genuine bag has its own code. A fake or already-given bag is refused.")),
+        batches.length ? el("details", { class: "field" }, el("summary", {}, "Bags without codes"),
+          el("div", { class: "mt" }, el("label", { class: "field" }, el("span", {}, "Batch"), batch), el("label", { class: "field" }, el("span", {}, "Bags"), bags))) : null,
+        err, go));
+    setTimeout(() => code.focus(), 50);
+  };
+  put(page); step1();
+}
+
+/* ---------- check a bag (signed in) ---------- */
+function showCheck() {
+  setBar("Check a bag", true);
+  const code = el("input", { class: "input codein", autocapitalize: "characters", placeholder: "ABCD-EFGH-JKMN", maxlength: "16" });
+  const err = el("div", { class: "err", role: "alert" });
+  const out = el("div", { class: "mt" });
+  const go = el("button", { class: "btn go full", type: "submit" }, icon("shield"), "Check this bag");
+  const isFarmer = state.role && state.role.kind === "farmer";
+  put(el("div", { class: "page" }, el("h1", {}, "Is this bag genuine?"), el("p", { class: "lead" }, "Type the 12-character code from the label."),
+    el("form", { onsubmit: async e => {
+      e.preventDefault(); err.textContent = ""; go.disabled = true;
+      try {
+        const r = await api("/me/check", { code: code.value });
+        const cls = r.result === "genuine" ? "ok" : r.result === "repeat" ? "held" : "bad";
+        const [t, rest] = r.headline.split(": ");
+        out.replaceChildren(el("div", { class: "result " + cls }, el("div", { class: "big" }, icon(cls === "ok" ? "shield" : cls === "held" ? "warn" : "x")),
+          el("h2", {}, cap(t.toLowerCase())), rest ? el("p", {}, el("b", {}, cap(rest) + ".")) : null, el("p", {}, r.message),
+          r.warnings.length ? el("ul", { class: "reasons" }, r.warnings.map(w => el("li", {}, cap(w)))) : null),
+          isFarmer && r.result !== "not_found" ? el("button", { class: "btn full mt", type: "button", onclick: () => report(code.value) }, "Report a problem with this bag") : null);
+      } catch (ex) { err.textContent = ex.message; } finally { go.disabled = false; }
+    } }, el("label", { class: "field" }, el("span", {}, "Bag code"), code), err, go), out));
+  code.focus();
+}
+
+async function report(code, batchId, label) {
+  const problem = el("textarea", { class: "input", rows: "3", placeholder: "What went wrong? e.g. crops turned yellow, bag felt light, looked different" });
+  const err = el("div", { class: "err", role: "alert" });
+  const go = el("button", { class: "btn go full", type: "submit" }, "Send report");
+  setBar("Report a problem", true);
+  put(el("div", { class: "page" }, el("h1", {}, "Report a problem"), el("p", { class: "lead" }, label || "Your report goes to the people who check fertilizer quality."),
+    el("form", { onsubmit: async e => {
+      e.preventDefault(); err.textContent = ""; go.disabled = true;
+      try { await api("/me/complaint", { code: code || "", batch_id: batchId || "", problem: problem.value }); toast("Thank you. Your report was sent."); location.hash = ""; route(); }
+      catch (ex) { err.textContent = ex.message; } finally { go.disabled = false; }
+    } }, el("label", { class: "field" }, el("span", {}, "What happened"), problem), err, go)));
+  problem.focus();
+}
+
+/* ---------- manager: flags ---------- */
+async function showFlags() {
+  setBar("Review flags", true);
+  const d = await api(`/me/coop/${state.role.coopId}`);
+  const act = async (path, msg) => { try { await api(path, {}); toast(msg); showFlags(); } catch (e) { toast(e.message, true); } };
+  const base = `/me/coop/${state.role.coopId}`;
+  put(el("div", { class: "page" }, el("h1", {}, "Review flags"),
+    el("p", { class: "lead" }, "Our check held these because something looked unusual. Read the reasons, then decide."),
+    d.held_farmers.length || d.held_deliveries.length ? null : el("div", { class: "empty" }, el("div", { class: "plantbox" }, maize()), "Nothing is waiting. All clear."),
+    d.held_farmers.length ? el("h2", { class: "sec" }, "New farmers") : null,
+    el("div", { class: "list" }, d.held_farmers.map(f => el("div", { class: "flag" },
+      el("h3", {}, f.name), el("p", { class: "meta" }, `${phoneFmt(f.phone)}, ${f.acres} acres${f.village ? ", " + f.village : ""}`),
+      el("ul", { class: "reasons" }, (f.ai_reasons || []).map(r => el("li", {}, cap(r)))),
+      el("div", { class: "two" }, el("button", { class: "btn warn", type: "button", onclick: () => act(`${base}/farmers/${f.id}/reject`, "Registration rejected") }, "Reject"),
+        el("button", { class: "btn go", type: "button", onclick: () => act(`${base}/farmers/${f.id}/approve`, `${f.name} confirmed`) }, "Confirm"))))),
+    d.held_deliveries.length ? el("h2", { class: "sec" }, "Deliveries") : null,
+    el("div", { class: "list" }, d.held_deliveries.map(x => el("div", { class: "flag" },
+      el("h3", {}, `${kg(x.weight_kg)} ${x.crop} from ${x.farmer_name}`), el("p", { class: "meta" }, `${x.ref}, weighed by ${x.clerk_name}, ${when(x.created_at)}. ${kes(x.amount)}`),
+      el("ul", { class: "reasons" }, (x.ai_reasons || []).map(r => el("li", {}, cap(r)))),
+      el("div", { class: "two" }, el("button", { class: "btn warn", type: "button", onclick: () => act(`${base}/deliveries/${x.id}/reject`, "Delivery cancelled") }, "Cancel delivery"),
+        el("button", { class: "btn go", type: "button", onclick: () => act(`${base}/deliveries/${x.id}/clear`, "Delivery cleared for payment") }, "Clear for payment")))))));
+}
+
+/* ---------- manager: prices ---------- */
+async function showPrices() {
+  setBar("Prices", true);
+  const d = await api(`/me/coop/${state.role.coopId}`);
+  const crop = el("select", { class: "input" }, d.crops.map(c => el("option", { value: c.code }, c.name)));
+  const grade = el("select", { class: "input" }, el("option", { value: "1" }, "Grade 1"), el("option", { value: "2" }, "Grade 2"));
+  const price = el("input", { class: "input", inputmode: "decimal", placeholder: "KES per kg" });
+  const err = el("div", { class: "err", role: "alert" });
+  put(el("div", { class: "page" }, el("h1", {}, "Prices per kg"), el("p", { class: "lead" }, "Each delivery is valued at the price in force when it is weighed."),
+    d.prices.length ? el("div", { class: "list" }, d.prices.map(p => el("div", { class: "row" }, el("div", { class: "ri" }, icon("tag")),
+      el("div", { class: "rm" }, el("b", {}, `${cap(p.crop)}, grade ${p.grade}`), el("span", {}, `Set ${when(p.effective_from)}`)), el("div", { class: "amt" }, kes(p.price_per_kg))))) : el("div", { class: "empty" }, "No prices yet."),
+    el("h2", { class: "sec" }, "Set a new price"),
+    el("form", { onsubmit: async e => {
+      e.preventDefault(); err.textContent = "";
+      try { await api(`/me/coop/${state.role.coopId}/prices`, { crop: crop.value, grade: grade.value, price_per_kg: parseFloat(price.value) || 0 }); state.coop = null; toast("Price saved"); showPrices(); }
+      catch (ex) { err.textContent = ex.message; }
+    } }, el("label", { class: "field" }, el("span", {}, "Crop"), crop), el("label", { class: "field" }, el("span", {}, "Grade"), grade),
+      el("label", { class: "field" }, el("span", {}, "Price"), price), err, el("button", { class: "btn go full", type: "submit" }, "Save price"))));
+}
+
+/* ---------- manager: pay farmers ---------- */
+async function showPay(id) {
+  setBar("Pay farmers", true);
+  const base = `/me/coop/${state.role.coopId}`;
+  if (id) {
+    const d = await api(`${base}/payruns/${id}`);
+    const p = d.payrun;
+    const act = async (verb, msg) => { try { await api(`${base}/payruns/${id}/${verb}`, {}); toast(msg); showPay(id); } catch (e) { toast(e.message, true); } };
+    put(el("div", { class: "page" }, el("h1", {}, kes(p.total)), el("p", { class: "lead" }, `${p.farmers} farmer${p.farmers === 1 ? "" : "s"}, ${p.deliveries} deliver${p.deliveries === 1 ? "y" : "ies"}. Prepared by ${p.created_by}. ${cap(p.status)}.`),
+      p.status === "draft" ? el("div", { class: "actions" },
+        el("button", { class: "btn go full", type: "button", onclick: () => act("approve", "Approved. Payments are being sent.") }, icon("coins"), "Approve and pay"),
+        el("p", { class: "muted small" }, "A different manager from the one who prepared it must approve, or the AgriProof operator."),
+        el("button", { class: "btn warn full", type: "button", onclick: () => act("cancel", "Pay run cancelled") }, "Cancel")) : null,
+      el("h2", { class: "sec" }, "Farmers in this run"),
+      el("div", { class: "list" }, d.lines.map(l => el("div", { class: "row" }, el("div", { class: "ri" }, icon("farmer")),
+        el("div", { class: "rm" }, el("b", {}, l.name), el("span", {}, `No. ${l.member_no}, ${kg(l.kg)}`)),
+        el("div", { class: "amt" }, kes(l.amount), el("div", {}, l.payout_status ? el("span", { class: "chip " + (l.payout_status === "paid" ? "" : ["unknown", "manual", "failed"].includes(l.payout_status) ? "red" : "gold") },
+          { paid: "Paid", queued: "Sending", sending: "Sending", sent: "Confirming", unknown: "Being checked", manual: "Being checked", failed: "Being checked", returned: "Next run" }[l.payout_status] || l.payout_status) : null)))))));
+    return;
+  }
+  const d = await api(`/me/coop/${state.role.coopId}`);
+  state.coop = d;
+  const runs = await api(`${base}/payruns`);
+  const amount = el("input", { class: "input", inputmode: "numeric", placeholder: "Amount in KES" });
+  put(el("div", { class: "page" }, modeBanner(),
+    el("div", { class: "stats" },
+      el("div", { class: "stat" }, el("b", {}, kes(d.coop.owed)), el("span", {}, "owed to farmers")),
+      el("div", { class: "stat" }, el("b", {}, kes(d.funds)), el("span", {}, "available to pay"))),
+    el("button", { class: "btn go full mt", type: "button", onclick: async () => {
+      try { const r = await api(`${base}/payruns`, {}); toast("Pay run prepared. Another manager approves it."); location.hash = "#pay/" + r.id; } catch (e) { toast(e.message, true); }
+    } }, icon("coins"), "Prepare payments for cleared deliveries"),
+    el("h2", { class: "sec" }, "Add cooperative money"),
+    el("form", { onsubmit: async e => {
+      e.preventDefault();
+      try { await api(`${base}/fund`, { amount: parseInt(amount.value, 10) || 0 }); toast(d.payments_mode === "test" ? "Funding recorded. The operator confirms it in test mode." : "Check your phone for the M-Pesa prompt."); amount.value = ""; }
+      catch (ex) { toast(ex.message, true); }
+    } }, el("label", { class: "field" }, el("span", {}, "Amount"), amount, el("small", {}, "An M-Pesa prompt goes to your phone. The money counts once the payment company confirms it.")),
+      el("button", { class: "btn full", type: "submit" }, "Send M-Pesa prompt")),
+    el("h2", { class: "sec" }, "Pay runs"),
+    runs.length ? el("div", { class: "list" }, runs.map(r => el("button", { class: "row tap", type: "button", onclick: () => location.hash = "#pay/" + r.id },
+      el("div", { class: "ri" }, icon("coins")), el("div", { class: "rm" }, el("b", {}, kes(r.total)), el("span", {}, `${r.farmers} farmer${r.farmers === 1 ? "" : "s"}, ${when(r.created_at)}`)),
+      el("span", { class: "chip " + (r.status === "draft" ? "gold" : r.status === "cancelled" ? "grey" : r.problems ? "red" : "") },
+        r.status === "draft" ? "Needs approval" : r.status === "cancelled" ? "Cancelled" : r.problems ? `${r.problems} need checking` : `${r.paid} of ${r.farmers} paid`)))) : el("div", { class: "empty" }, "No pay runs yet.")));
+}
+
+/* ---------- manager: lots ---------- */
+async function showLots(id) {
+  setBar("Lots for buyers", true);
+  const base = `/me/coop/${state.role.coopId}`;
+  const lots = await api(`${base}/lots`);
+  if (id) {
+    const lot = lots.find(l => l.id === id);
+    if (!lot) { location.hash = "#lots"; return; }
+    const recent = (await api(`${base}/deliveries?status=recorded&limit=100`)).filter(d => !d.lot_code && d.crop === lot.crop);
+    const boxes = recent.map(d => ({ d, cb: el("input", { type: "checkbox" }) }));
+    const link = `${location.origin}/p/${lot.code}`;
+    put(el("div", { class: "page" }, el("h1", {}, `Lot ${lot.code}`), el("p", { class: "lead" }, `${kg(lot.kg)} of ${lot.crop} from ${lot.deliveries} deliveries${lot.buyer ? ", for " + lot.buyer : ""}. ${cap(lot.status)}.`),
+      el("div", { class: "row" }, el("div", { class: "ri" }, icon("shield")), el("div", { class: "rm" }, el("b", {}, "Buyer proof page"), el("span", {}, link)),
+        el("button", { class: "btn small", type: "button", onclick: async () => { try { await navigator.clipboard.writeText(link); toast("Link copied"); } catch { toast("Press and hold the link to copy it", true); } } }, "Copy")),
+      lot.status === "open" ? [el("h2", { class: "sec" }, "Add deliveries"),
+        boxes.length ? el("div", { class: "list" }, boxes.map(({ d, cb }) => el("label", { class: "check-row" }, cb, el("div", { class: "rm" }, el("b", {}, `${kg(d.weight_kg)}, ${d.farmer_name}`), el("span", { class: "muted small" }, ` grade ${d.grade}, ${when(d.created_at)}`))))) : el("div", { class: "empty" }, "No cleared deliveries of this crop are waiting."),
+        el("div", { class: "actions" },
+          boxes.length ? el("button", { class: "btn go full", type: "button", onclick: async () => {
+            const ids = boxes.filter(b => b.cb.checked).map(b => b.d.id);
+            if (!ids.length) { toast("Tick the deliveries to add", true); return; }
+            try { await api(`${base}/lots/${id}/add`, { delivery_ids: ids }); toast("Added to the lot"); showLots(id); } catch (e) { toast(e.message, true); }
+          } }, "Add ticked deliveries") : null,
+          el("button", { class: "btn full", type: "button", onclick: async () => { try { await api(`${base}/lots/${id}/close`, {}); toast("Lot closed"); showLots(id); } catch (e) { toast(e.message, true); } } }, "Close lot (ready for the buyer)"))] : null));
+    return;
+  }
+  if (!state.coop) state.coop = await api(`/me/coop/${state.role.coopId}`);
+  const crop = el("select", { class: "input" }, state.coop.crops.map(c => el("option", { value: c.code }, c.name)));
+  const buyer = el("input", { class: "input", placeholder: "Buyer (optional)" });
+  put(el("div", { class: "page" }, el("h1", {}, "Lots for buyers"), el("p", { class: "lead" }, "Group deliveries into a lot. The buyer scans its code to see where the produce came from and that farmers were paid."),
+    lots.length ? el("div", { class: "list" }, lots.map(l => el("button", { class: "row tap", type: "button", onclick: () => location.hash = "#lots/" + l.id },
+      el("div", { class: "ri" }, icon("truck")), el("div", { class: "rm" }, el("b", {}, `Lot ${l.code}`), el("span", {}, `${kg(l.kg)} ${l.crop}${l.buyer ? ", " + l.buyer : ""}`)),
+      el("span", { class: "chip " + (l.status === "open" ? "gold" : "") }, l.status === "open" ? "Open" : "Closed")))) : el("div", { class: "empty" }, "No lots yet."),
+    el("h2", { class: "sec" }, "Start a lot"),
+    el("form", { onsubmit: async e => { e.preventDefault(); try { const l = await api(`${base}/lots`, { crop: crop.value, buyer: buyer.value }); location.hash = "#lots/" + l.id; } catch (ex) { toast(ex.message, true); } } },
+      el("label", { class: "field" }, el("span", {}, "Crop"), crop), el("label", { class: "field" }, el("span", {}, "Buyer"), buyer), el("button", { class: "btn go full", type: "submit" }, "Start lot"))));
+}
+
+/* ---------- farmer home ---------- */
+async function farmerHome() {
+  const r = state.role;
+  setBar(r.coopName, false);
+  const d = await api(`/me/farmer/${r.coopId}`);
+  const f = d.farmer;
+  const paid = d.payouts.filter(p => p.status === "paid").reduce((a, p) => a + p.amount, 0);
+  const sealed = d.verify && d.verify.valid;
+  put(modeBanner(),
+    el("div", { class: "greet" }, el("div", {}, el("h1", { class: "hello" }, `Habari, ${f.name.split(" ")[0]}`),
+      el("p", { class: "sub" }, `Member no. ${f.member_no}. `, roles(state.me).length > 1 ? el("a", { href: "#role" }, "Switch") : null)), maize()),
+    f.status === "held" ? el("div", { class: "mode" }, "Your registration is waiting for a manager to confirm it.") : null,
+    el("div", { class: "stats" },
+      el("div", { class: "stat wide" }, el("b", {}, kg(f.season_kg)), el("span", {}, "delivered this season")),
+      el("div", { class: "stat" }, el("b", {}, kes(f.owed)), el("span", {}, "owed to you")),
+      el("div", { class: "stat" }, el("b", {}, kes(paid)), el("span", {}, "paid to you"))),
+    el("div", { class: "row mt" }, el("div", { class: "ri" }, icon("shield")), el("div", { class: "rm" },
+      el("b", {}, sealed ? "Your records are sealed" : "Records check failed"),
+      el("span", {}, sealed ? "Every weight is sealed when it is recorded. Nobody can change it later." : "Tell your cooperative and the AgriProof operator."))),
+    el("div", { class: "tiles mt" },
+      el("button", { class: "tile sky wide", type: "button", onclick: () => location.hash = "#check" }, el("div", { class: "ti" }, icon("shield")), el("div", {}, "Check a fertilizer bag", el("small", {}, "Make sure it is genuine before you buy or plant")))),
+    el("h2", { class: "sec" }, "Your deliveries"),
+    d.deliveries.length ? el("div", { class: "list" }, d.deliveries.slice(0, 20).map(deliveryRow)) : el("div", { class: "empty" }, "No deliveries yet."),
+    el("h2", { class: "sec" }, "Payments"),
+    d.payouts.length ? el("div", { class: "list" }, d.payouts.map(p => el("div", { class: "row" }, el("div", { class: "ri" }, icon("coins")),
+      el("div", { class: "rm" }, el("b", {}, kes(p.amount)), el("span", {}, `${when(p.created_at)}${p.receipt && p.status === "paid" && !/^SIM/i.test(p.receipt) ? ", receipt " + p.receipt : ""}`)),
+      el("span", { class: "chip " + (p.status === "paid" ? "" : "gold") }, p.status === "paid" ? "Paid" : p.status === "returned" ? "Next payment" : "On its way")))) : el("div", { class: "empty" }, "No payments yet."),
+    el("h2", { class: "sec" }, "Fertilizer and seed you received"),
+    d.inputs.length ? el("div", { class: "list" }, d.inputs.map(x => el("div", { class: "row" }, el("div", { class: "ri" }, icon("bag")),
+      el("div", { class: "rm" }, el("b", {}, x.product), el("span", {}, `Batch ${x.batch_no}, ${x.supplier}. ${when(x.created_at)}`)),
+      x.batch_status === "recalled" ? el("span", { class: "chip red" }, "Recalled") :
+        el("button", { class: "btn small", type: "button", onclick: () => report("", x.batch_id, `${x.product}, batch ${x.batch_no} from ${x.supplier}`) }, "Report")))) : el("div", { class: "empty" }, "None recorded yet."));
+}
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/app/sw.js", { scope: "/app/" }).catch(() => {});
+route();
+})();
+</script>
+</body>
+</html>

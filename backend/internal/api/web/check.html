@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F7A2E">
+<meta name="description" content="Check that a bag of fertilizer or seed is genuine before you buy or plant it.">
+<title>Check a bag · AgriProof</title>
+<link rel="icon" href="/app/icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+<style nonce="{{NONCE}}">
+{{THEME}}
+body{min-height:100dvh}
+.top{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--safe-top) + 14px) 20px 14px;max-width:1080px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:21px;color:var(--soil);text-decoration:none}
+.brand svg{width:30px;height:30px}
+.hero{position:relative;min-height:330px;background:url("/brand/seedling.jpg") center 40%/cover no-repeat,linear-gradient(150deg,#6CCB5F,#2E9A3A 60%,#1F7A2E);color:#fff;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,80,34,0) 0%,rgba(20,80,34,.35) 50%,rgba(20,80,34,.7) 100%)}
+.hero .in{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:110px 20px 96px}
+.hero h1{color:#fff;font-size:clamp(36px,7.5vw,64px);font-weight:800;max-width:12ch;letter-spacing:-.025em}
+.hero p{font-size:19px;max-width:34ch;margin:12px 0 0;color:#F1FBEA}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 40px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+@media (min-width:880px){.grid{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:start}}
+.card{background:var(--paper);border-radius:var(--r-l);padding:26px;box-shadow:0 18px 40px -22px rgba(31,122,46,.45);border:1px solid var(--line)}
+.lift{margin-top:-64px;position:relative;z-index:2}
+.codebox{font-family:var(--mono);font-size:26px;letter-spacing:.14em;text-transform:uppercase;text-align:center;min-height:64px}
+.result{margin-top:22px;border-radius:var(--r-m);padding:22px;display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:start;animation:rise .35s ease}
+.result .ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;animation:pop .5s ease}
+.result .ic svg{width:36px;height:36px}
+.result h2{font-size:28px}
+.result .lead{font-weight:700;font-size:18px;margin-top:2px}
+@media (max-width:520px){.result{grid-template-columns:1fr}.result .ic{width:56px;height:56px}}
+.result p{margin:6px 0 0}
+.result.genuine{background:var(--shoot)} .result.genuine .ic{background:var(--leaf);color:#fff} .result.genuine h2{color:var(--stalk-dark)}
+.result.repeat{background:var(--tassel-soft)} .result.repeat .ic{background:var(--tassel);color:#3B2A00} .result.repeat h2{color:var(--tassel-ink)}
+.result.not_found,.result.recalled{background:var(--tomato-soft)} .result.not_found .ic,.result.recalled .ic{background:var(--tomato);color:#fff}
+.result.not_found h2,.result.recalled h2{color:#A3301A}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:16px 0 0;font-size:16px}
+.facts dt{color:var(--soil-2)} .facts dd{margin:0;font-weight:700}
+.warns{margin:14px 0 0;padding:12px 14px;background:rgba(255,255,255,.7);border-radius:var(--r-s);border-left:4px solid var(--tassel)}
+.warns li{margin:3px 0}
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:18px}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.steps .n{width:44px;height:44px;border-radius:50%;background:var(--shoot);color:var(--stalk);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:20px}
+.steps b{display:block;font-size:18px}
+.side h2{font-size:26px;margin-bottom:16px}
+.plant{display:flex;justify-content:center;margin:6px 0 4px}
+.plant svg{width:120px;height:200px}
+.full{width:100%}
+.note{margin:20px 0 0}
+footer{max-width:1080px;margin:0 auto;padding:10px 20px calc(var(--safe-bottom) + 30px);display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/check" aria-label="AgriProof home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29V12" stroke="#1F7A2E" stroke-width="3" stroke-linecap="round"/><path d="M16 18C10 18 5 14 4 7c7 0 12 4 12 11z" fill="#4CB944"/><path d="M16 14c0-6 4-10 11-10-1 7-5 11-11 10z" fill="#1F7A2E"/></svg>
+    AgriProof
+  </a>
+  <a class="btn small ghost" href="/app/">Field app</a>
+</header>
+
+<section class="hero">
+  <div class="in">
+    <h1>Is this fertilizer genuine?</h1>
+    <p>Type the code from the label on the bag. You will know in a few seconds, before you pay or plant.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="grid">
+    <section class="card lift" aria-labelledby="checkTitle">
+      <h2 id="checkTitle" class="hidden">Check a bag</h2>
+      <form id="form" novalidate>
+        <label class="field"><span>Code on the bag label</span>
+          <input class="input codebox" id="code" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="16" placeholder="ABCD-EFGH-JKMN" inputmode="text">
+          <small>12 letters and numbers. Scratch the silver panel if the label has one.</small>
+        </label>
+        <div class="err" id="err" role="alert"></div>
+        <button class="btn go full" id="go" type="submit">Check this bag</button>
+      </form>
+      <div id="out" aria-live="polite"></div>
+    </section>
+
+    <aside class="card side">
+      <div class="plant" id="plant"></div>
+      <h2>How the check works</h2>
+      <ol class="steps">
+        <li><span class="n">1</span><div><b>Every genuine bag has its own code</b><span class="muted">Printed for that bag only, when the factory registers the batch.</span></div></li>
+        <li><span class="n">2</span><div><b>The first phone to check a code owns it</b><span class="muted">If the same code turns up on another bag, you are warned it was copied.</span></div></li>
+        <li><span class="n">3</span><div><b>Bad batches are stopped</b><span class="muted">When a batch fails a lab test or is recalled, the check says so, and farmers who got it are sent an SMS.</span></div></li>
+      </ol>
+      <p class="muted small note">No smartphone? Send the code by SMS to your cooperative's AgriProof number.</p>
+    </aside>
+  </div>
+</main>
+<footer>
+  <span class="credit">Photo: Noah Buscher on <a href="https://unsplash.com/photos/x8ZStukS2PM" rel="noopener">Unsplash</a></span>
+  <span class="credit">AgriProof: honest records from farm to buyer</span>
+</footer>
+
+<script nonce="{{NONCE}}">
+"use strict";
+(() => {
+const $ = s => document.querySelector(s);
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v; else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const k of kids.flat()) if (k != null && k !== false) n.append(k instanceof Node ? k : document.createTextNode(String(k)));
+  return n;
+}
+function svg(paths, opts = {}) {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true");
+  s.setAttribute("fill", "none"); s.setAttribute("stroke", "currentColor"); s.setAttribute("stroke-width", opts.w || "2.4");
+  s.setAttribute("stroke-linecap", "round"); s.setAttribute("stroke-linejoin", "round");
+  for (const d of paths.split("|")) { const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); s.append(p); }
+  return s;
+}
+const ICON = {
+  genuine: "M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z|M8.5 12.5l2.5 2.5 4.5-5",
+  repeat: "M12 4l9 16H3L12 4z|M12 10v4|M12 17.5v.01",
+  not_found: "M6 6l12 12|M18 6L6 18",
+  recalled: "M12 3a9 9 0 100 18 9 9 0 000-18z|M5.6 5.6l12.8 12.8",
+};
+
+/* the growing maize plant */
+function maize() {
+  const s = document.createElementNS(NS, "svg");
+  s.setAttribute("viewBox", "0 0 120 220"); s.setAttribute("class", "maize"); s.setAttribute("aria-hidden", "true");
+  const add = (parent, tag, attrs) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); parent.append(e); return e; };
+  add(s, "path", { class: "ground", d: "M14 212 Q60 204 106 212" });
+  const g = add(s, "g", { class: "sway" });
+  add(g, "path", { class: "stalk", d: "M60 210 C58 160 62 110 60 40" });
+  add(g, "path", { class: "lf l1", d: "M60 152 C40 140 20 150 6 174 C28 162 44 160 60 160 Z" });
+  add(g, "path", { class: "lf r1", d: "M60 126 C82 112 102 118 116 140 C96 131 78 131 60 134 Z" });
+  add(g, "path", { class: "cob", d: "M62 118 C68 102 74 96 78 84 C84 98 78 112 65 121 Z" });
+  add(g, "path", { class: "lf l2", d: "M60 96 C42 80 22 82 10 99 C28 92 44 95 60 103 Z" });
+  add(g, "path", { class: "lf r2", d: "M60 70 C76 55 94 55 106 68 C92 66 76 69 60 77 Z" });
+  add(g, "path", { class: "tas", d: "M60 42 L50 20 M60 42 L60 12 M60 42 L70 20" });
+  return s;
+}
+$("#plant").append(maize());
+
+/* "NOT FOUND: this code is ..." becomes a short title and a plain sentence. */
+function headline(h) {
+  const i = h.indexOf(": ");
+  if (i < 0) return [el("h2", {}, h)];
+  const t = h.slice(0, i).toLowerCase();
+  return [el("h2", {}, t.charAt(0).toUpperCase() + t.slice(1)), el("p", { class: "lead" }, h.charAt(i + 2).toUpperCase() + h.slice(i + 3) + ".")];
+}
+const fmtDate = t => t ? new Date(t).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" }) : null;
+const clean = v => v.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
+const pretty = c => c.length === 12 ? `${c.slice(0, 4)}-${c.slice(4, 8)}-${c.slice(8)}` : c;
+
+const code = $("#code");
+code.addEventListener("input", () => {
+  const c = clean(code.value);
+  const p = pretty(c);
+  if (c.length === 12 && code.value !== p) code.value = p;
+});
+
+async function check(c) {
+  const err = $("#err"), go = $("#go"), out = $("#out");
+  err.textContent = "";
+  if (c.length !== 12) { err.textContent = "The code has 12 letters and numbers, like ABCD-EFGH-JKMN."; code.focus(); return; }
+  go.disabled = true; go.replaceChildren(el("span", { class: "spinner" }));
+  try {
+    const res = await fetch("/public/check", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: c }) });
+    const r = await res.json().catch(() => ({}));
+    if (res.status === 429) throw new Error("Too many checks from this connection. Wait a minute and try again.");
+    if (!res.ok) throw new Error((r.error || "The check did not work.").replace(/^validation failed: /, ""));
+    const facts = r.product ? el("dl", { class: "facts" },
+      el("dt", {}, "Product"), el("dd", {}, r.product),
+      el("dt", {}, "Supplier"), el("dd", {}, r.supplier),
+      el("dt", {}, "Batch"), el("dd", {}, r.batch_no),
+      el("dt", {}, "Bag size"), el("dd", {}, `${r.bag_kg} kg`),
+      r.stated_content ? [el("dt", {}, "Bag says"), el("dd", {}, r.stated_content)] : null,
+      r.made_on ? [el("dt", {}, "Made"), el("dd", {}, fmtDate(r.made_on))] : null,
+      r.expires_on ? [el("dt", {}, "Use before"), el("dd", {}, fmtDate(r.expires_on))] : null,
+      el("dt", {}, "Lab test"), el("dd", {}, { pass: "Passed", fail: "Failed", untested: "Not tested yet" }[r.lab_result] || "Not tested yet")) : null;
+    out.replaceChildren(el("div", { class: "result " + r.result, role: "status" },
+      el("div", { class: "ic" }, svg(ICON[r.result] || ICON.repeat)),
+      el("div", {}, ...headline(r.headline), el("p", {}, r.message), facts,
+        r.warnings && r.warnings.length ? el("ul", { class: "warns" }, r.warnings.map(w => el("li", {}, w.charAt(0).toUpperCase() + w.slice(1)))) : null)));
+  } catch (e) {
+    err.textContent = e.message || "Cannot reach AgriProof. Check your connection.";
+  } finally {
+    go.disabled = false; go.textContent = "Check this bag";
+  }
+}
+$("#form").addEventListener("submit", e => { e.preventDefault(); check(clean(code.value)); });
+const fromPath = location.pathname.match(/^\/check\/([A-Za-z0-9-]+)/);
+if (fromPath) { code.value = pretty(clean(fromPath[1])); check(clean(fromPath[1])); }
+})();
+</script>
+</body>
+</html>

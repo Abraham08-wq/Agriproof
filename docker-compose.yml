@@ -1,0 +1,85 @@
+name: agriproof
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: agri
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agri_dev_password}
+      POSTGRES_DB: agriproof
+    ports:
+      - "127.0.0.1:48432:5432"   # unusual host port to avoid clashing with other systems
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agri -d agriproof"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Local blockchain for development (Foundry's Anvil). Free and instant.
+  # Its state is saved to a volume, so contracts and anchors survive restarts.
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:stable
+    restart: unless-stopped
+    user: "0:0"
+    entrypoint: ["anvil", "--host", "0.0.0.0", "--chain-id", "31337", "--state", "/data/anvil-state.json", "--state-interval", "5"]
+    stop_signal: SIGINT
+    stop_grace_period: 15s
+    volumes:
+      - anvildata:/data
+    ports:
+      - "127.0.0.1:48545:8545"
+
+  ai:
+    build: { context: ./ai-service, network: host }
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:48800:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: { context: ./backend, network: host }
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://agri:${POSTGRES_PASSWORD:-agri_dev_password}@postgres:5432/agriproof?sslmode=disable
+      AI_SERVICE_URL: http://ai:8000
+      BRAND_DIR: /brand
+      CHAIN_RPC_URL: ${CHAIN_RPC_URL:-http://anvil:8545}
+    ports:
+      - "${API_BIND:-127.0.0.1}:48080:8080"
+    volumes:
+      - ./brand:/brand:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ai:
+        condition: service_healthy
+
+  monitor:
+    image: python:3.12-alpine
+    restart: unless-stopped
+    environment:
+      API_URL: http://api:8080
+      API_KEY: ${MONITOR_API_KEY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:-}
+      MONITOR_SUMMARY_HOUR: ${MONITOR_SUMMARY_HOUR:-8}
+      MONITOR_STATE: /data/monitor-state.json
+    command: ["python", "-u", "/app/monitor.py"]
+    volumes:
+      - ./monitor:/app:ro
+      - monitordata:/data
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  anvildata:
+  monitordata:
